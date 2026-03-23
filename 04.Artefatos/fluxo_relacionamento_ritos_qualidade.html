@@ -1,0 +1,213 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:24px 16px;display:flex;flex-direction:column;gap:0}
+.center-row{display:flex;justify-content:center;margin:0 auto;width:100%}
+.hub{background:#EEEDFE;border:1.5px solid #534AB7;border-radius:14px;padding:14px 28px;text-align:center;min-width:220px}
+.hub-title{font-size:15px;font-weight:500;color:#3C3489}
+.hub-sub{font-size:11px;color:#534AB7;margin-top:3px}
+.cols{display:grid;grid-template-columns:1fr 24px 1fr;gap:0;align-items:start;margin:0 auto;width:100%;max-width:680px}
+.col{display:flex;flex-direction:column;gap:12px}
+.col-left{align-items:flex-end}
+.col-right{align-items:flex-start}
+.spine{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:8px;gap:0}
+.v-line{width:2px;background:var(--color-border-secondary);flex:1;min-height:20px}
+.node-card{border-radius:10px;padding:10px 14px;width:100%;max-width:290px;cursor:pointer;transition:opacity .15s}
+.node-card:hover{opacity:.85}
+.node-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.node-sub{font-size:11px;opacity:.75}
+.c-blue-card{background:#E6F1FB;border:1px solid #185FA5}
+.c-blue-card .node-title{color:#0C447C}
+.c-blue-card .node-sub{color:#185FA5}
+.c-coral-card{background:#FAECE7;border:1px solid #993C1D}
+.c-coral-card .node-title{color:#712B13}
+.c-coral-card .node-sub{color:#993C1D}
+.c-teal-card{background:#E1F5EE;border:1px solid #0F6E56}
+.c-teal-card .node-title{color:#085041}
+.c-teal-card .node-sub{color:#0F6E56}
+.c-amber-card{background:#FAEEDA;border:1px solid #854F0B}
+.c-amber-card .node-title{color:#633806}
+.c-amber-card .node-sub{color:#854F0B}
+.c-green-card{background:#EAF3DE;border:1px solid #3B6D11}
+.c-green-card .node-title{color:#27500A}
+.c-green-card .node-sub{color:#3B6D11}
+.c-purple-card{background:#EEEDFE;border:1px solid #534AB7;opacity:.82}
+.c-purple-card .node-title{color:#3C3489}
+.c-purple-card .node-sub{color:#534AB7}
+.connector{display:flex;align-items:center;gap:0;width:100%;max-width:290px;justify-content:flex-end}
+.connector.right-side{justify-content:flex-start}
+.rito-pills{display:flex;flex-direction:column;gap:4px;flex:1}
+.pill{border-radius:20px;padding:3px 10px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:5px;cursor:pointer;transition:opacity .15s;border:none;text-align:left;width:fit-content}
+.pill:hover{opacity:.8}
+.pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pill-mensal{background:#EEEDFE;color:#3C3489}
+.pill-mensal .pill-dot{background:#534AB7}
+.pill-quinzenal{background:#E1F5EE;color:#085041}
+.pill-quinzenal .pill-dot{background:#0F6E56}
+.pill-semanal{background:#FAEEDA;color:#633806}
+.pill-semanal .pill-dot{background:#854F0B}
+.arrow-h{font-size:16px;color:var(--color-text-secondary);margin:0 4px;line-height:1}
+.section-top{display:flex;flex-direction:column;align-items:center;margin-bottom:0}
+.section-bottom{display:flex;flex-direction:column;align-items:center;margin-top:0}
+.top-conn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0}
+.top-conn-pills{display:flex;flex-direction:column;align-items:center;gap:4px}
+.vline-top{width:2px;height:20px;background:var(--color-border-secondary)}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;padding:0 4px}
+.pillar{background:#EEEDFE;border:1px solid #AFA9EC;border-radius:8px;padding:7px 8px;text-align:center}
+.pillar-title{font-size:11px;font-weight:500;color:#3C3489}
+.pillar-sub{font-size:10px;color:#534AB7;margin-top:2px}
+.section-label{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;text-align:center;margin:6px 0 2px}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;max-width:340px;width:90%;position:relative}
+.modal h3{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:12px}
+.modal-rito{margin-bottom:10px}
+.modal-rito-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:4px}
+.modal-rito-desc{font-size:12px;color:var(--color-text-primary);line-height:1.5}
+.modal-close{position:absolute;top:10px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--color-text-secondary);line-height:1}
+.mid-vline{display:flex;justify-content:center}
+.mid-vline-inner{width:2px;height:16px;background:var(--color-border-secondary)}
+</style>
+
+<div class="wrap">
+
+<div class="section-top">
+  <div class="center-row">
+    <div class="node-card c-blue-card" style="text-align:center;max-width:240px" onclick="sendPrompt('Como são os ritos mensais de DRE entre Qualidade e Operações Agibank?')">
+      <div class="node-title">Operações Agibank</div>
+      <div class="node-sub">Coordenação · Responsáveis</div>
+    </div>
+  </div>
+  <div class="top-conn">
+    <div class="vline-top"></div>
+    <div class="top-conn-pills">
+      <button class="pill pill-mensal" onclick="openModal('ops-ag','mensal')"><span class="pill-dot"></span>Mensal · DRE de resultados</button>
+      <button class="pill pill-quinzenal" onclick="openModal('ops-ag','quinzenal')"><span class="pill-dot"></span>Quinzenal · Prévia de resultados</button>
+      <button class="pill pill-semanal" onclick="openModal('ops-ag','semanal')"><span class="pill-dot"></span>Semanal · Travas e barreiras</button>
+    </div>
+    <div class="vline-top"></div>
+  </div>
+</div>
+
+<div class="center-row">
+  <div class="hub">
+    <div class="hub-title">Qualidade Agibank</div>
+    <div class="hub-sub">Compliance · Governança · Insights · Treinamento</div>
+  </div>
+</div>
+
+<div class="cols" style="margin-top:0">
+  <div class="col col-left" style="padding-top:16px">
+
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <button class="pill pill-mensal" style="width:fit-content" onclick="openModal('qual-bpo','mensal')"><span class="pill-dot"></span>Mensal · Calibragem</button>
+      <button class="pill pill-quinzenal" style="width:fit-content" onclick="openModal('qual-bpo','quinzenal')"><span class="pill-dot"></span>Quinzenal · Score e metas</button>
+      <button class="pill pill-semanal" style="width:fit-content" onclick="openModal('qual-bpo','semanal')"><span class="pill-dot"></span>Semanal · RPS barreiras</button>
+      <div style="font-size:18px;color:var(--color-text-secondary);margin-top:2px">↙</div>
+    </div>
+    <div class="node-card c-coral-card" onclick="sendPrompt('Quais os ritos entre Qualidade Agibank e Qualidade BPO?')">
+      <div class="node-title">Qualidade BPO</div>
+      <div class="node-sub">Gerente · Coord. · Supervisores · Monitores</div>
+    </div>
+
+    <div style="height:16px"></div>
+
+    <div class="node-card c-teal-card" onclick="sendPrompt('Como Qualidade Agibank se relaciona com Operações BPO N1, N2 e Regulatórios?')">
+      <div class="node-title">Operações BPO</div>
+      <div class="node-sub">N1 · N2 · Regulatórios · Mídias · Chat</div>
+    </div>
+  </div>
+
+  <div class="spine">
+    <div class="v-line"></div>
+  </div>
+
+  <div class="col col-right" style="padding-top:16px">
+
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+      <div style="font-size:18px;color:var(--color-text-secondary);margin-bottom:2px">↘</div>
+      <button class="pill pill-mensal" onclick="openModal('trein-bpo','mensal')"><span class="pill-dot"></span>Mensal · Ganhos de treinamento</button>
+      <button class="pill pill-quinzenal" onclick="openModal('trein-bpo','quinzenal')"><span class="pill-dot"></span>Quinzenal · Andamento turmas</button>
+      <button class="pill pill-semanal" onclick="openModal('trein-bpo','semanal')"><span class="pill-dot"></span>Semanal · RPS barreiras</button>
+    </div>
+    <div class="node-card c-green-card" onclick="sendPrompt('Quais os ritos entre Qualidade Agibank e Treinamento BPO?')">
+      <div class="node-title">Treinamento BPO</div>
+      <div class="node-sub">Gerente · Coord. · Supervisores · Monitores</div>
+    </div>
+
+    <div style="height:16px"></div>
+
+    <div class="node-card c-amber-card" onclick="sendPrompt('Como Qualidade Agibank apoia Treinamento interno?')">
+      <div class="node-title">Treinamento Agibank</div>
+      <div class="node-sub">Operações · Analistas</div>
+    </div>
+  </div>
+</div>
+
+<div class="mid-vline"><div class="mid-vline-inner"></div></div>
+
+<div class="section-label">Pilares internos de Qualidade</div>
+<div class="pillars">
+  <div class="pillar" onclick="sendPrompt('Me explica o pilar Compliance e Regulação')" style="cursor:pointer">
+    <div class="pillar-title">Compliance</div>
+    <div class="pillar-sub">SAC · CAC · LGPD</div>
+  </div>
+  <div class="pillar" onclick="sendPrompt('Me explica o pilar Governança de Parceiros')" style="cursor:pointer">
+    <div class="pillar-title">Governança</div>
+    <div class="pillar-sub">Calibração · Checklist</div>
+  </div>
+  <div class="pillar" onclick="sendPrompt('Me explica o pilar Insights e PMC')" style="cursor:pointer">
+    <div class="pillar-title">Insights PMC</div>
+    <div class="pillar-sub">DMAIC · Estatística</div>
+  </div>
+  <div class="pillar" onclick="sendPrompt('Me explica o pilar Treinamento e Multiplicação')" style="cursor:pointer">
+    <div class="pillar-title">Treinamento</div>
+    <div class="pillar-sub">Causas · Mensuração</div>
+  </div>
+</div>
+
+<div class="section-label" style="margin-top:10px">Legenda de frequência</div>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding-bottom:4px">
+  <span class="pill pill-mensal" style="cursor:default"><span class="pill-dot"></span>Mensal</span>
+  <span class="pill pill-quinzenal" style="cursor:default"><span class="pill-dot"></span>Quinzenal</span>
+  <span class="pill pill-semanal" style="cursor:default"><span class="pill-dot"></span>Semanal</span>
+</div>
+</div>
+
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()">×</button>
+    <h3 id="modal-title"></h3>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const ritos={
+  'ops-ag':{
+    mensal:{title:'Rito mensal · DRE',desc:'Reunião de resultados gerais (DRE): repasse dos indicadores de Qualidade, alinhamento de estratégias e definição dos próximos passos para os OKRs da Cia.'},
+    quinzenal:{title:'Rito quinzenal · Prévia',desc:'Prévia dos resultados do mês corrente: antecipação de tendências, pontos de atenção e ajustes táticos antes do fechamento.'},
+    semanal:{title:'Rito semanal · Barreiras',desc:'Compartilhamento das dificuldades, travas e barreiras do período, permitindo ação rápida e desbloqueio de gargalos operacionais.'}
+  },
+  'qual-bpo':{
+    mensal:{title:'Rito mensal · Calibragem',desc:'Sessões de calibragem master: alinhamento dos critérios de avaliação com os monitores do BPO, garantindo consistência no monitoramento e aderência às regras de negócio.'},
+    quinzenal:{title:'Rito quinzenal · Score e metas',desc:'Prévia de resultados do período: meta de amostras atingidas, Score de Qualidade parcial e análise de desvios de avaliadores.'},
+    semanal:{title:'Rito semanal · RPS',desc:'RPS (Reunião de Performance Semanal): acompanhamento de dificuldades, travas e barreiras enfrentadas pela equipe de Qualidade do BPO.'}
+  },
+  'trein-bpo':{
+    mensal:{title:'Rito mensal · Ganhos',desc:'Mapeamento dos ganhos de treinamento: avaliação de conhecimento pré/pós, avaliação de reação das turmas e comparativo da nota de Qualidade antes versus depois do treinamento.'},
+    quinzenal:{title:'Rito quinzenal · Turmas',desc:'Acompanhamento do andamento das turmas em curso: temas trabalhados, evolução dos participantes e eventuais necessidades de reforço ou ajuste de conteúdo.'},
+    semanal:{title:'Rito semanal · RPS',desc:'RPS (Reunião de Performance Semanal): acompanhamento de dificuldades, travas e barreiras no ciclo de treinamento do BPO.'}
+  }
+};
+const titles={'ops-ag':'Qualidade × Operações Agibank','qual-bpo':'Qualidade × Qualidade BPO','trein-bpo':'Qualidade × Treinamento BPO'};
+function openModal(rel,freq){
+  const r=ritos[rel][freq];
+  document.getElementById('modal-title').textContent=titles[rel];
+  document.getElementById('modal-body').innerHTML=`<div class="modal-rito"><div class="modal-rito-title">${r.title}</div><div class="modal-rito-desc">${r.desc}</div></div>`;
+  document.getElementById('modal-bg').classList.add('open');
+}
+function closeModal(e){if(e.target===document.getElementById('modal-bg'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('modal-bg').classList.remove('open');}
+</script>
