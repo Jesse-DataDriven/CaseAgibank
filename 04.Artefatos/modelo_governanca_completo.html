@@ -1,0 +1,402 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+.gov { padding: 20px 0 16px; }
+
+.section-title {
+  font-size: 13px; font-weight: 500; color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+.section-sub {
+  font-size: 11px; color: var(--color-text-secondary);
+  margin-bottom: 14px;
+}
+.divider { height: 1px; background: var(--color-border-tertiary); margin: 22px 0; }
+
+.comites-grid { display: flex; flex-direction: column; gap: 8px; }
+
+.comite {
+  border-radius: 10px; border: 1px solid; overflow: hidden;
+}
+.comite-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+}
+.freq-badge {
+  font-size: 10px; font-weight: 500; padding: 3px 10px;
+  border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+.comite-name { font-size: 13px; font-weight: 500; }
+.comite-nick { font-size: 11px; margin-left: 4px; }
+
+.comite-body {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0; border-top: 1px solid;
+  background: var(--color-background-primary);
+}
+.cb-cell {
+  padding: 9px 12px; border-right: 1px solid var(--color-border-tertiary);
+  font-size: 11px;
+}
+.cb-cell:last-child { border-right: none; }
+.cb-label { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.cb-val { font-size: 11px; color: var(--color-text-primary); line-height: 1.45; }
+
+.obs-tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 4px;
+  display: inline-block; margin-top: 5px; font-weight: 500;
+}
+
+.c-mensal { border-color: #7F77DD; }
+.c-mensal .comite-head { background: #EEEDFE; }
+.c-mensal .comite-head .comite-name { color: #3C3489; }
+.c-mensal .comite-head .comite-nick { color: #534AB7; }
+.c-mensal .comite-body { border-top-color: #AFA9EC; }
+.c-mensal .freq-badge { background: #3C3489; color: #EEEDFE; }
+.c-mensal .obs-tag { background: #EEEDFE; color: #3C3489; }
+
+.c-quinz { border-color: #5DCAA5; }
+.c-quinz .comite-head { background: #E1F5EE; }
+.c-quinz .comite-head .comite-name { color: #085041; }
+.c-quinz .comite-head .comite-nick { color: #0F6E56; }
+.c-quinz .comite-body { border-top-color: #5DCAA5; }
+.c-quinz .freq-badge { background: #085041; color: #E1F5EE; }
+.c-quinz .obs-tag { background: #E1F5EE; color: #085041; }
+
+.c-seman { border-color: #EF9F27; }
+.c-seman .comite-head { background: #FAEEDA; }
+.c-seman .comite-head .comite-name { color: #633806; }
+.c-seman .comite-head .comite-nick { color: #854F0B; }
+.c-seman .comite-body { border-top-color: #EF9F27; }
+.c-seman .freq-badge { background: #633806; color: #FAEEDA; }
+.c-seman .obs-tag { background: #FAEEDA; color: #633806; }
+
+.c-extra { border-color: #E24B4A; }
+.c-extra .comite-head { background: #FCEBEB; }
+.c-extra .comite-head .comite-name { color: #791F1F; }
+.c-extra .comite-head .comite-nick { color: #A32D2D; }
+.c-extra .comite-body { border-top-color: #E24B4A; }
+.c-extra .freq-badge { background: #791F1F; color: #FCEBEB; }
+.c-extra .obs-tag { background: #FCEBEB; color: #791F1F; }
+
+.obs-global {
+  margin-top: 10px; padding: 8px 12px; border-radius: 8px;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border-tertiary);
+  font-size: 11px; color: var(--color-text-secondary);
+}
+.obs-global strong { color: var(--color-text-primary); font-weight: 500; }
+
+.aprovacoes { display: flex; flex-direction: column; gap: 7px; }
+.aprov {
+  display: flex; align-items: flex-start; gap: 0;
+  border-radius: 10px; border: 1px solid; overflow: hidden;
+}
+.aprov-gatilho {
+  padding: 10px 12px; min-width: 200px; max-width: 200px; flex-shrink: 0;
+}
+.aprov-arrow {
+  display: flex; align-items: center; padding: 0 8px;
+  color: var(--color-text-secondary); font-size: 14px; align-self: stretch;
+  background: var(--color-background-secondary);
+  border-left: 1px solid var(--color-border-tertiary);
+  border-right: 1px solid var(--color-border-tertiary);
+}
+.aprov-acao { padding: 10px 12px; flex: 1; }
+.aprov-alcada {
+  padding: 10px 12px; min-width: 140px; flex-shrink: 0;
+  border-left: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+.ag-label { font-size: 10px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 3px; }
+.ag-val   { font-size: 11px; font-weight: 500; line-height: 1.4; }
+.ag-sub   { font-size: 10px; line-height: 1.4; margin-top: 2px; }
+.al-label { font-size: 10px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 3px; }
+.al-val   { font-size: 11px; font-weight: 500; line-height: 1.35; }
+.al-prazo { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; }
+
+.aa-label { font-size: 10px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 3px; }
+.aa-val   { font-size: 11px; color: var(--color-text-primary); line-height: 1.4; }
+
+.a-warn { border-color: #EF9F27; }
+.a-warn .aprov-gatilho { background: #FAEEDA; }
+.a-warn .ag-label { color: #854F0B; }
+.a-warn .ag-val   { color: #633806; }
+.a-warn .ag-sub   { color: #854F0B; }
+.a-warn .al-val   { color: #633806; }
+
+.a-alert { border-color: #E24B4A; }
+.a-alert .aprov-gatilho { background: #FCEBEB; }
+.a-alert .ag-label { color: #A32D2D; }
+.a-alert .ag-val   { color: #791F1F; }
+.a-alert .ag-sub   { color: #A32D2D; }
+.a-alert .al-val   { color: #791F1F; }
+
+.a-info { border-color: #85B7EB; }
+.a-info .aprov-gatilho { background: #E6F1FB; }
+.a-info .ag-label { color: #185FA5; }
+.a-info .ag-val   { color: #0C447C; }
+.a-info .ag-sub   { color: #185FA5; }
+.a-info .al-val   { color: #0C447C; }
+
+.a-neutral { border-color: #B4B2A9; }
+.a-neutral .aprov-gatilho { background: #F1EFE8; }
+.a-neutral .ag-label { color: #5F5E5A; }
+.a-neutral .ag-val   { color: #444441; }
+.a-neutral .ag-sub   { color: #5F5E5A; }
+.a-neutral .al-val   { color: #444441; }
+
+@media (max-width: 580px) {
+  .comite-body { grid-template-columns: 1fr; }
+  .cb-cell { border-right: none; border-bottom: 1px solid var(--color-border-tertiary); }
+  .aprov { flex-direction: column; }
+  .aprov-gatilho { max-width: 100%; min-width: unset; border-bottom: 1px solid var(--color-border-tertiary); }
+  .aprov-alcada { min-width: unset; border-left: none; border-top: 1px solid var(--color-border-tertiary); }
+  .aprov-arrow { display: none; }
+}
+</style>
+
+<div class="gov">
+
+  <div class="section-title">Níveis de comitês</div>
+  <div class="section-sub">Toda reunião inclui obrigatoriamente a equipe de Operações da Cia como convidada no schedule</div>
+
+  <div class="comites-grid">
+
+    <div class="comite c-mensal">
+      <div class="comite-head">
+        <span class="freq-badge">Mensal</span>
+        <span class="comite-name">DRE de Qualidade</span>
+        <span class="comite-nick">— Reunião de resultados</span>
+      </div>
+      <div class="comite-body">
+        <div class="cb-cell">
+          <div class="cb-label">Público</div>
+          <div class="cb-val">Coord. QA Agibank · Coord. BPO · Gestão Operações · Lideranças LOB</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Pauta</div>
+          <div class="cb-val">Resultados por LOB · causas raízes por canal · desvio e discrepância · ganhos de treinamento · diferenças entre safras · pontos de atenção</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Entregável · SLA</div>
+          <div class="cb-val">Ata com planos de ação formalizados em até 48h após a reunião</div>
+          <span class="obs-tag">Pode ser incorporada na reunião geral de resultados da Cia</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comite c-quinz">
+      <div class="comite-head">
+        <span class="freq-badge">Quinzenal</span>
+        <span class="comite-name">Quality Council</span>
+        <span class="comite-nick">— Prévia estratégica</span>
+      </div>
+      <div class="comite-body">
+        <div class="cb-cell">
+          <div class="cb-label">Público</div>
+          <div class="cb-val">Equipe de Qualidade Agibank · Coordenação e Supervisão QA do BPO</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Pauta</div>
+          <div class="cb-val">Parcial de indicadores · preparação para o comitê mensal · alinhamento de aderência às metas · status de projetos DMAIC</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Entregável · SLA</div>
+          <div class="cb-val">Pré-relatório mensal com gaps identificados e pré-plano de ação em 24h</div>
+          <span class="obs-tag">Alimenta diretamente o DRE mensal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comite c-seman">
+      <div class="comite-head">
+        <span class="freq-badge">Semanal</span>
+        <span class="comite-name">Huddle Operacional</span>
+        <span class="comite-nick">— Foco em solução de problemas</span>
+      </div>
+      <div class="comite-body">
+        <div class="cb-cell">
+          <div class="cb-label">Público</div>
+          <div class="cb-val">Supervisores QA · Supervisores Op. BPO · Área de apoio · Operações Cia</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Pauta</div>
+          <div class="cb-val">Barreiras e dificuldades do dia a dia · pontos críticos de processo · dores operacionais · recuperação de indicadores da semana</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Entregável · SLA</div>
+          <div class="cb-val">Drives da semana com responsável e prazo definidos · call to action imediato</div>
+          <span class="obs-tag">Gatilho de escalonamento para comitê extraordinário</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comite c-extra">
+      <div class="comite-head">
+        <span class="freq-badge">Sob demanda</span>
+        <span class="comite-name">Comitê Extraordinário</span>
+        <span class="comite-nick">— Acionado por gatilho crítico</span>
+      </div>
+      <div class="comite-body">
+        <div class="cb-cell">
+          <div class="cb-label">Público</div>
+          <div class="cb-val">Todas as lideranças envolvidas · aciona Coord. Agibank obrigatoriamente</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Gatilhos de acionamento</div>
+          <div class="cb-val">QA Score cai 3pp semana a semana · desvio de calibragem acima de 5pp por 2 ciclos · NC crítico em mais de 15% das monitorias</div>
+        </div>
+        <div class="cb-cell">
+          <div class="cb-label">Entregável · SLA</div>
+          <div class="cb-val">Plano de contenção formalizado em até 24h · monitoramento diário até estabilização do indicador</div>
+          <span class="obs-tag">Não espera o próximo rito regular</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="obs-global">
+    <strong>Regra de ouro dos comitês:</strong> nenhuma reunião termina sem responsável, prazo e entregável definidos. Ata sempre em até 48h para mensais, 24h para os demais.
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Fluxo de aprovações e alçadas</div>
+  <div class="section-sub">Gatilho → ação requerida → alçada responsável · prazo máximo de resposta</div>
+
+  <div class="aprovacoes">
+
+    <div class="aprov a-warn">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Desvio de calibragem &gt; 5pp na nota</div>
+        <div class="ag-sub">Identificado no ciclo quinzenal de calibragem</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">Plano de ação com letramento, estudo de caso e nova calibragem de validação. Acompanhamento no próximo ciclo.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">Coord. de Qualidade</div>
+        <div class="al-prazo">Aprovação em até 48h</div>
+      </div>
+    </div>
+
+    <div class="aprov a-alert">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Contestação de NCG com necessidade de tréplica</div>
+        <div class="ag-sub">Após análise do supervisor QA do parceiro</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">Revisão técnica do item contestado com fundamentação no checklist vigente. Decisão final irrecorrível.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">Coord. de Qualidade</div>
+        <div class="al-prazo">Decisão em até 72h</div>
+      </div>
+    </div>
+
+    <div class="aprov a-alert">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Nota de qualidade cai 3pp semana a semana</div>
+        <div class="ag-sub">Monitorado via dashboard D-1</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">Aciona o Huddle Operacional semanal com gravidade. Se persistir por 2 semanas, aciona comitê extraordinário com análise de causa raiz obrigatória.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">Huddle → Coord. se persistir</div>
+        <div class="al-prazo">Call to action em 24h</div>
+      </div>
+    </div>
+
+    <div class="aprov a-info">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Revisão de checklist (item ou checklist completo)</div>
+        <div class="ag-sub">Demanda de qualquer área ou parceiro</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">Análise técnica pela Arquitetura de Checklists. Só aprovada com concordância simultânea das duas coordenações.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">Coord. QA + Coord. Operacional (DA conjunto)</div>
+        <div class="al-prazo">Item: 5 dias úteis · checklist completo: 15 dias</div>
+      </div>
+    </div>
+
+    <div class="aprov a-info">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Emissão de LNT (Levantamento de Necessidade de Treinamento)</div>
+        <div class="ag-sub">Gerado pelo pilar Treinamento &amp; Multiplicação</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">LNT emitido pelo pilar T&amp;M de Qualidade. Requer DA formal da Coord. de Operações da Cia, que governa as necessidades das LOBs com o BPO.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">DA formal: Coord. Operações da Cia</div>
+        <div class="al-prazo">Aprovação em até 48h</div>
+      </div>
+    </div>
+
+    <div class="aprov a-neutral">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Revisão de procedimento no portal do agente</div>
+        <div class="ag-sub">Mudança de fluxo operacional identificada</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">Validação técnica do pilar Processos e Jornada. Publicação no portal somente após aprovação dupla para evitar conflito com checklist vigente.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">Coord. QA + Coord. Operacional</div>
+        <div class="al-prazo">Publicação em até 5 dias úteis</div>
+      </div>
+    </div>
+
+    <div class="aprov a-neutral">
+      <div class="aprov-gatilho">
+        <div class="ag-label">Gatilho</div>
+        <div class="ag-val">Abertura formal de projeto DMAIC</div>
+        <div class="ag-sub">KPI fora da meta sem melhora no trimestre</div>
+      </div>
+      <div class="aprov-arrow">→</div>
+      <div class="aprov-acao">
+        <div class="aa-label">Ação requerida</div>
+        <div class="aa-val">Project charter formalizado pelo pilar Belt DMAIC com escopo, meta, prazo e recursos. Evita projeto fantasma sem patrocínio.</div>
+      </div>
+      <div class="aprov-alcada">
+        <div class="al-label">Alçada</div>
+        <div class="al-val">DA: Coord. de Qualidade e PMC</div>
+        <div class="al-prazo">Aprovação em até 5 dias úteis</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
