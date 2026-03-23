@@ -1,0 +1,7 @@
+┌─────────────────────────────────────┐
+│ PARA: Treinamento BPO               │
+│ • Envio: Matriz de competências     │
+│ • Recebe: Evolução de proficiência  │
+│ • Gatilho: Gap de qualidade > 10pp  │
+│ • Frequência: Contínua              │
+└─────────────────────────────────────┘

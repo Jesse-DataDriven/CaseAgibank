@@ -1,0 +1,15 @@
+┌─────────────────────────────────────┐
+│ PARA: Qualidade BPO                 │
+│ • Envio: Checklist master, critérios│
+│ • Recebe: Notas de monitoria, desvios│
+│ • Gatilho: Calibração quinzenal    │
+│ • Frequência: Semanal (ritual)      │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│ PARA: Operações Agibank             │
+│ • Envio: Scorecard de desempenho BPO│
+│ • Recebe: Feedback estratégico      │
+│ • Gatilho: Revisão contratual       │
+│ • Frequência: Mensal                │
+└─────────────────────────────────────┘
