@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melhoria Contínua & PMC | Agibank BPO</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #3b82f6;
+      --success: #059669;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --purple: #7c3aed;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    body { background: var(--light); color: var(--dark); line-height: 1.6; }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin: 0 auto; }
+    
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* METHODOLOGY FLEXIBILITY */
+    .methodology-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .method-card {
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .method-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+    }
+
+    .method-card.main {
+      border-color: var(--success);
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    }
+
+    .method-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .method-card h3 {
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .method-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .method-card ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .method-card li {
+      padding: 0.4rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.85rem;
+      color: var(--dark);
+    }
+
+    .method-card li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .tech-stack {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tech-stack h3 {
+      color: white;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .tech-badge {
+      background: rgba(255,255,255,0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* DMAIC PHASES */
+    .dmaic-container {
+      margin-top: 2rem;
+    }
+
+    .dmaic-phases {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .dmaic-phase {
+      flex: 1;
+      min-width: 180px;
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .dmaic-phase:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+    }
+
+    .dmaic-phase.define { border-color: #3b82f6; background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+    .dmaic-phase.measure { border-color: #059669; background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+    .dmaic-phase.analyze { border-color: #f59e0b; background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+    .dmaic-phase.improve { border-color: #7c3aed; background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+    .dmaic-phase.control { border-color: #dc2626; background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+
+    .phase-number {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin: 0 auto 1rem auto;
+    }
+
+    .dmaic-phase.define .phase-number { background: #3b82f6; }
+    .dmaic-phase.measure .phase-number { background: #059669; }
+    .dmaic-phase.analyze .phase-number { background: #f59e0b; }
+    .dmaic-phase.improve .phase-number { background: #7c3aed; }
+    .dmaic-phase.control .phase-number { background: #dc2626; }
+
+    .dmaic-phase h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .dmaic-phase p {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .phase-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary);
+      font-size: 1.5rem;
+    }
+
+    /* DMAIC DETAILS */
+    .dmaic-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .detail-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .detail-header {
+      padding: 1rem 1.5rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .detail-card.define .detail-header { background: #3b82f6; }
+    .detail-card.measure .detail-header { background: #059669; }
+    .detail-card.analyze .detail-header { background: #f59e0b; }
+    .detail-card.improve .detail-header { background: #7c3aed; }
+    .detail-card.control .detail-header { background: #dc2626; }
+
+    .detail-header h3 {
+      font-size: 1.1rem;
+    }
+
+    .detail-body {
+      padding: 1.5rem;
+    }
+
+    .detail-body ul {
+      list-style: none;
+    }
+
+    .detail-body li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .detail-body li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    .deliverable-box {
+      background: #eff6ff;
+      border-left: 4px solid var(--secondary);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 1rem;
+    }
+
+    .deliverable-box.define { border-left-color: #3b82f6; background: #eff6ff; }
+    .deliverable-box.measure { border-left-color: #059669; background: #f0fdf4; }
+    .deliverable-box.analyze { border-left-color: #f59e0b; background: #fffbeb; }
+    .deliverable-box.improve { border-left-color: #7c3aed; background: #ede9fe; }
+    .deliverable-box.control { border-left-color: #dc2626; background: #fef2f2; }
+
+    .deliverable-box strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .deliverable-box p {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    /* TRIGGERS & PRIORITIZATION */
+    .trigger-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .trigger-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 5px solid var(--danger);
+    }
+
+    .trigger-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .trigger-card ul {
+      list-style: none;
+    }
+
+    .trigger-card li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+
+    .trigger-card li::before {
+      content: "🔴";
+      position: absolute;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
+    .rice-matrix {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .rice-matrix h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .rice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .rice-item {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .rice-letter {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: block;
+    }
+
+    .rice-word {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: 0.25rem;
+    }
+
+    .rice-desc {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    /* PROJECT GOVERNANCE */
+    .governance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .governance-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .governance-header {
+      padding: 1.5rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .governance-card.kanban .governance-header {
+      background: linear-gradient(135deg, var(--warning), #d97706);
+    }
+
+    .governance-card.scrum .governance-header {
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+    }
+
+    .governance-icon {
+      font-size: 2rem;
+      background: rgba(255,255,255,0.2);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .governance-title h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .governance-title .tagline {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .governance-body {
+      padding: 1.5rem;
+    }
+
+    .governance-body ul {
+      list-style: none;
+    }
+
+    .governance-body li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .governance-body li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    /* PORTFOLIO TIERS */
+    .portfolio-tiers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tier-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      border: 2px solid var(--secondary);
+    }
+
+    .tier-card.quick { border-color: var(--success); background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+    .tier-card.project { border-color: var(--primary); background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+    .tier-card.strategic { border-color: var(--danger); background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+
+    .tier-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .tier-card h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .tier-card .duration {
+      display: inline-block;
+      background: var(--dark);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .tier-card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    /* TOLLGATES */
+    .tollgate-container {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .tollgate-container h3 {
+      color: white;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tollgate-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tollgate-step {
+      flex: 1;
+      min-width: 150px;
+      background: rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .tollgate-step .step-num {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--warning);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .tollgate-step .step-name {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .tollgate-step .step-approver {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      display: block;
+    }
+
+    /* PMC METRICS */
+    .pmc-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .metric-card {
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: block;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .dmaic-phases { flex-direction: column; }
+      .phase-arrow { transform: rotate(90deg); }
+      .tollgate-steps { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <h1>🔄 Melhoria Contínua & PMC</h1>
+      <p>Ciência de dados, metodologia estruturada e ciclos de melhoria para transformar problemas operacionais em ganhos mensuráveis de eficiência, qualidade e experiência do cliente.</p>
+    </div>
+
+    <!-- METHODOLOGY FLEXIBILITY -->
+    <div class="section">
+      <h2>🎯 Metodologia: Flexibilidade com Propósito</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">A escolha da metodologia não é dogmática — está ligada ao <strong>objetivo do problema</strong> que queremos resolver. Naturalmente, o ciclo principal para implantação de melhoria contínua é o <strong>DMAIC</strong>, apoiado por tecnologia de ponta.</p>
+      
+      <div class="methodology-grid">
+        
+        <div class="method-card main">
+          <span class="method-icon">🔄</span>
+          <h3>DMAIC (Principal)</h3>
+          <p>Ciclo estruturado Six Sigma para problemas complexos com causa raiz desconhecida.</p>
+          <ul>
+            <li>Problemas com impacto financeiro significativo</li>
+            <li>Variabilidade de processo alta</li>
+            <li>Necessidade de validação estatística</li>
+            <li>Projetos com ROI mensurável</li>
+          </ul>
+        </div>
+
+        <div class="method-card">
+          <span class="method-icon">⚡</span>
+          <h3>Kaizen / PDCA</h3>
+          <p>Melhorias rápidas e incrementais para problemas de baixa complexidade.</p>
+          <ul>
+            <li>Problemas com causa conhecida</li>
+            <li>Implementação em até 2 semanas</li>
+            <li>Equipe pequena (2-5 pessoas)</li>
+            <li>Baixo risco operacional</li>
+          </ul>
+        </div>
+
+        <div class="method-card">
+          <span class="method-icon">🏃</span>
+          <h3>SCRUM / KANBAN</h3>
+          <p>Gestão ágil de projetos de melhoria com entregas iterativas.</p>
+          <ul>
+            <li>Projetos de tecnologia/processo</li>
+            <li>Múltiplas entregas parciais</li>
+            <li>Time cross-funcional</li>
+            <li>Backlog priorizado dinamicamente</li>
+          </ul>
+        </div>
+
+        <div class="method-card">
+          <span class="method-icon">🔍</span>
+          <h3>Ferramentas de Análise</h3>
+          <p>Metodologias complementares para diagnóstico profundo.</p>
+          <ul>
+            <li>Análise de Causa Raiz (5 Porquês, Ishikawa)</li>
+            <li>Mapa Mental de Processos</li>
+            <li>Gemba Walk (observação in loco)</li>
+            <li>PNL para comunicação de mudança</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- TECH STACK -->
+      <div class="tech-stack">
+        <h3>🛠️ Tech Stack de Apoio à Melhoria Contínua</h3>
+        <p style="margin-bottom: 1rem; opacity: 0.9;">Todos os cases de melhoria serão construídos com suporte de programação e inteligência artificial para análise preditiva e automação.</p>
+        <div class="tech-badges">
+          <span class="tech-badge">🐍 Python</span>
+          <span class="tech-badge">⚡ JavaScript</span>
+          <span class="tech-badge">🤖 Inteligência Artificial</span>
+          <span class="tech-badge">📊 Power BI / Tableau</span>
+          <span class="tech-badge">📈 Estatística (Six Sigma)</span>
+          <span class="tech-badge">🔗 API Integration</span>
+          <span class="tech-badge">🧪 A/B Testing</span>
+          <span class="tech-badge">📉 Regressão & Correlação</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DMAIC PHASES -->
+    <div class="section">
+      <h2>📊 Ciclo DMAIC: 5 Fases de Controle</h2>
+      <p style="margin-bottom: 1rem; color: var(--gray);">Estrutura completa do ciclo de melhoria contínua com entregáveis, gateways de aprovação e métricas de sucesso em cada fase.</p>
+      
+      <div class="dmaic-container">
+        
+        <!-- DMAIC Visual Flow -->
+        <div class="dmaic-phases">
+          <div class="dmaic-phase define">
+            <div class="phase-number">1</div>
+            <h3>Define</h3>
+            <p>Mapeamento & Discovery</p>
+          </div>
+          <div class="phase-arrow">➜</div>
+          <div class="dmaic-phase measure">
+            <div class="phase-number">2</div>
+            <h3>Measure</h3>
+            <p>Mensuração & Dados</p>
+          </div>
+          <div class="phase-arrow">➜</div>
+          <div class="dmaic-phase analyze">
+            <div class="phase-number">3</div>
+            <h3>Analyze</h3>
+            <p>Análise & Prototipagem</p>
+          </div>
+          <div class="phase-arrow">➜</div>
+          <div class="dmaic-phase improve">
+            <div class="phase-number">4</div>
+            <h3>Improve</h3>
+            <p>Remodelagem & Implementação</p>
+          </div>
+          <div class="phase-arrow">➜</div>
+          <div class="dmaic-phase control">
+            <div class="phase-number">5</div>
+            <h3>Control</h3>
+            <p>Monitoramento & Sustentação</p>
+          </div>
+        </div>
+
+        <!-- DMAIC Details -->
+        <div class="dmaic-details">
+          
+          <div class="detail-card define">
+            <div class="detail-header">
+              <span style="font-size: 1.5rem;">📍</span>
+              <h3>1. Define (Mapeamento)</h3>
+            </div>
+            <div class="detail-body">
+              <ul>
+                <li>Sessão de Discovery com stakeholders centrais</li>
+                <li>Definição clara do OKR/KPI a ser impactado</li>
+                <li>Mapeamento de dores, padrões e ambições</li>
+                <li>Aplicação de RICE para priorização do projeto</li>
+                <li>Termo de Abertura do Projeto (Project Charter)</li>
+              </ul>
+              <div class="deliverable-box define">
+                <strong>📄 Entregável</strong>
+                <p>Project Charter + SIPOC + Voz do Cliente + Matriz RICE</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card measure">
+            <div class="detail-header">
+              <span style="font-size: 1.5rem;">📏</span>
+              <h3>2. Measure (Mensurando)</h3>
+            </div>
+            <div class="detail-body">
+              <ul>
+                <li>Entendimento dos padrões de dados do KPI</li>
+                <li>Análise de camadas profundas das métricas</li>
+                <li>Coleta de linha de base (baseline)</li>
+                <li>Validação de sistema de medição (MSA)</li>
+                <li>Capabilidade de processo (Cp, Cpk)</li>
+              </ul>
+              <div class="deliverable-box measure">
+                <strong>📄 Entregável</strong>
+                <p>Baseline de Performance + MSA + Mapa de Processo Atual (As-Is)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card analyze">
+            <div class="detail-header">
+              <span style="font-size: 1.5rem;">🔬</span>
+              <h3>3. Analyze (Analisando)</h3>
+            </div>
+            <div class="detail-body">
+              <ul>
+                <li>Identificação de causas raiz (5 Porquês, Ishikawa)</li>
+                <li>Regressões e correlações para validar hipóteses</li>
+                <li>Estimativa de potencial de ganho</li>
+                <li>Prototipagem de soluções</li>
+                <li>Análise de risco e viabilidade</li>
+              </ul>
+              <div class="deliverable-box analyze">
+                <strong>📄 Entregável</strong>
+                <p>Análise de Causa Raiz + Modelo Estatístico + Business Case</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card improve">
+            <div class="detail-header">
+              <span style="font-size: 1.5rem;">🚀</span>
+              <h3>4. Improve (Remodelagem)</h3>
+            </div>
+            <div class="detail-body">
+              <ul>
+                <li>Implementação das mudanças mais coerentes</li>
+                <li>Apoio em análises estatísticas data-driven</li>
+                <li>Teste A/B ou rollout total (dependendo do risco)</li>
+                <li>Plano de comunicação e change management</li>
+                <li>Treinamento das equipes impactadas</li>
+              </ul>
+              <div class="deliverable-box improve">
+                <strong>📄 Entregável</strong>
+                <p>Plano de Implementação + Resultados do Piloto + Processo To-Be</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card control">
+            <div class="detail-header">
+              <span style="font-size: 1.5rem;">📊</span>
+              <h3>5. Control (Monitoramento)</h3>
+            </div>
+            <div class="detail-body">
+              <ul>
+                <li>Acompanhamento da implementação em cerimônias específicas</li>
+                <li>Revisão de estratégia baseada em resultados coletados</li>
+                <li>Plano de controle estatístico (SPC)</li>
+                <li>Documentação final e lições aprendidas</li>
+                <li>Transferência para operação (handover)</li>
+              </ul>
+              <div class="deliverable-box control">
+                <strong>📄 Entregável</strong>
+                <p>Plano de Controle + Dashboard de Monitoramento + Lições Aprendidas</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TOLLGATES -->
+        <div class="tollgate-container">
+          <h3>🚧 Tollgates de Aprovação (Gateways de Fase)</h3>
+          <p style="margin-bottom: 1.5rem; opacity: 0.9;">Nenhum projeto avança de fase sem aprovação formal. Isso garante qualidade, alinhamento e uso eficiente de recursos.</p>
+          <div class="tollgate-steps">
+            <div class="tollgate-step">
+              <span class="step-num">Gate 1</span>
+              <span class="step-name">Define → Measure</span>
+              <span class="step-approver">Sponsor + Coordenador</span>
+            </div>
+            <div class="tollgate-step">
+              <span class="step-num">Gate 2</span>
+              <span class="step-name">Measure → Analyze</span>
+              <span class="step-approver">Coordenador + Compliance</span>
+            </div>
+            <div class="tollgate-step">
+              <span class="step-num">Gate 3</span>
+              <span class="step-name">Analyze → Improve</span>
+              <span class="step-approver">Diretoria + Financeiro</span>
+            </div>
+            <div class="tollgate-step">
+              <span class="step-num">Gate 4</span>
+              <span class="step-name">Improve → Control</span>
+              <span class="step-approver">Operações + Qualidade</span>
+            </div>
+            <div class="tollgate-step">
+              <span class="step-num">Gate 5</span>
+              <span class="step-name">Fechamento</span>
+              <span class="step-approver">Sponsor + Stakeholders</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TRIGGERS & PRIORITIZATION -->
+    <div class="section">
+      <h2>🔴 Gatilhos para Projetos de Melhoria</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Projetos de PMC não nascem do "achismo". São acionados por gatilhos métricos objetivos que indicam necessidade de intervenção estruturada.</p>
+      
+      <div class="trigger-grid">
+        
+        <div class="trigger-card">
+          <h3>📉 Métricas Fora da Meta</h3>
+          <ul>
+            <li>3 meses consecutivos fora da meta</li>
+            <li>Delta > 5% em 5 meses de avaliação</li>
+            <li>Métricas elegíveis: ABS, Qualidade, NS, TMA, NPS, FCR, TO, CSAT</li>
+            <li>Qualquer métrica de negócio ou performance operacional</li>
+          </ul>
+        </div>
+
+        <div class="trigger-card">
+          <h3>🔁 Recorrência de Temas</h3>
+          <ul>
+            <li>Padrão repetitivo em pesquisas de NPS/CSAT</li>
+            <li>Mesma causa raiz em 3+ incidentes de qualidade</li>
+            <li>Reclamação de cliente em múltiplos canais</li>
+            <li>Tendência de deterioração identificada em análise preditiva</li>
+          </ul>
+        </div>
+
+        <div class="trigger-card">
+          <h3>💡 Oportunidades Proativas</h3>
+          <ul>
+            <li>Sugestão de melhoria vinda do chão de fábrica</li>
+            <li>Benchmark de mercado com gap significativo</li>
+            <li>Nova tecnologia que pode otimizar processo</li>
+            <li>Mudança regulatória que exige adaptação</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- RICE MATRIX -->
+      <div class="rice-matrix">
+        <h3>📊 Priorização com Metodologia RICE</h3>
+        <p style="margin-bottom: 1rem; color: var(--gray);">Todos os projetos de melhoria são ranqueados no board próprio usando RICE para garantir alocação eficiente de recursos.</p>
+        <div class="rice-grid">
+          <div class="rice-item">
+            <span class="rice-letter">R</span>
+            <span class="rice-word">Reach</span>
+            <span class="rice-desc">Quantas pessoas/processos impacta?</span>
+          </div>
+          <div class="rice-item">
+            <span class="rice-letter">I</span>
+            <span class="rice-word">Impact</span>
+            <span class="rice-desc">Qual o ganho esperado (1-5x)?</span>
+          </div>
+          <div class="rice-item">
+            <span class="rice-letter">C</span>
+            <span class="rice-word">Confidence</span>
+            <span class="rice-desc">Qual a certeza do sucesso (50-100%)?</span>
+          </div>
+          <div class="rice-item">
+            <span class="rice-letter">E</span>
+            <span class="rice-word">Effort</span>
+            <span class="rice-desc">Quanto esforço em pessoa-mês?</span>
+          </div>
+        </div>
+        <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px; text-align: center;">
+          <strong style="color: var(--primary);">📐 Fórmula:</strong> <code style="background: #eff6ff; padding: 0.25rem 0.5rem; border-radius: 4px;">RICE Score = (R × I × C) / E</code>
+          <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem;">Projetos com maior score têm prioridade na fila de implantação</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT GOVERNANCE -->
+    <div class="section">
+      <h2>📋 Governança de Projetos de PMC</h2>
+      
+      <div class="governance-grid">
+        
+        <div class="governance-card kanban">
+          <div class="governance-header">
+            <div class="governance-icon">📋</div>
+            <div class="governance-title">
+              <h3>KANBAN para Melhorias Contínuas</h3>
+              <span class="tagline">Fluxo puxado com WIP limitado</span>
+            </div>
+          </div>
+          <div class="governance-body">
+            <ul>
+              <li>Board próprio no Roadmap/GitHub Projects</li>
+              <li>Colunas: Backlog → Priorizado → Em Análise → Em Implementação → Validação → Concluído</li>
+              <li>Limite de WIP (Work In Progress) por fase</li>
+              <li>Cerimônia semanal de revisão de fluxo</li>
+              <li>Métricas: Lead Time, Cycle Time, Throughput</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="governance-card scrum">
+          <div class="governance-header">
+            <div class="governance-icon">🏃</div>
+            <div class="governance-title">
+              <h3>SCRUM para Projetos Estruturados</h3>
+              <span class="tagline">Sprints de 2 semanas com entregas iterativas</span>
+            </div>
+          </div>
+          <div class="governance-body">
+            <ul>
+              <li>Sprint Planning para definição de backlog da sprint</li>
+              <li>Daily Stand-up de 15min para sincronização</li>
+              <li>Sprint Review para demonstração de resultados</li>
+              <li>Sprint Retrospective para melhoria do processo</li>
+              <li>Product Owner = Coordenador de PMC</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PORTFOLIO TIERS -->
+      <h3 style="margin-top: 2rem; color: var(--primary);">📦 Portfólio de Projetos por Complexidade</h3>
+      <div class="portfolio-tiers">
+        
+        <div class="tier-card quick">
+          <span class="tier-icon">⚡</span>
+          <h3>Quick Wins</h3>
+          <span class="duration">1-2 Semanas</span>
+          <p>Melhorias de baixa complexidade, causa conhecida, implementação rápida. Ex: Ajuste de script, correção de procedimento.</p>
+        </div>
+
+        <div class="tier-card project">
+          <span class="tier-icon">📊</span>
+          <h3>Projetos DMAIC</h3>
+          <span class="duration">2-4 Meses</span>
+          <p>Problemas complexos com causa raiz desconhecida. Requer análise estatística e validação. Ex: Redução de TMA, aumento de FCR.</p>
+        </div>
+
+        <div class="tier-card strategic">
+          <span class="tier-icon">🎯</span>
+          <h3>Iniciativas Estratégicas</h3>
+          <span class="duration">4-6+ Meses</span>
+          <p>Transformação de processo com impacto estrutural. Envolve múltiplos stakeholders e investimento. Ex: Nova jornada do cliente, automação com IA.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PMC METRICS -->
+    <div class="section">
+      <h2>📈 Métricas de Sucesso do Programa PMC</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">O próprio programa de melhoria contínua é medido para garantir eficácia e ROI.</p>
+      
+      <div class="pmc-metrics">
+        <div class="metric-card">
+          <span class="metric-value">≥ 4</span>
+          <span class="metric-label">Projetos Ativos/Trimestre</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">≥ 80%</span>
+          <span class="metric-label">Projetos Entregues no Prazo</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">ROI 5:1</span>
+          <span class="metric-label">Retorno sobre Investimento</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">≥ 90%</span>
+          <span class="metric-label">Sustentação Pós-Implementação</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">100%</span>
+          <span class="metric-label">Lições Aprendidas Documentadas</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem; padding: 1rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 8px; border-left: 4px solid var(--primary);">
+        <strong>💡 Regra de Ouro:</strong> Todo projeto de PMC deve ter <strong>ROI calculado</strong> antes da implementação. Economia de horas, redução de retrabalho, aumento de receita ou prevenção de risco devem ser quantificados em R$.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Interatividade básica: highlight de cards ao hover
+    document.querySelectorAll('.method-card, .dmaic-phase, .detail-card, .trigger-card, .governance-card, .tier-card, .metric-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+      });
+    });
+  </script>
+</body>
+</html>
