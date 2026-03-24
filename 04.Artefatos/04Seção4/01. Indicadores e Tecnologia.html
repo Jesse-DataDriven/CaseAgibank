@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicadores e Tecnologia | Agibank BPO</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #3b82f6;
+      --success: #059669;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --purple: #7c3aed;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    body { background: var(--light); color: var(--dark); line-height: 1.6; }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin: 0 auto; }
+    
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* KPI CARDS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+    }
+
+    .kpi-card.qa { border-color: #3b82f6; }
+    .kpi-card.fcr { border-color: #059669; }
+    .kpi-card.csat { border-color: #f59e0b; }
+    .kpi-card.calibration { border-color: #7c3aed; }
+    .kpi-card.monitoring { border-color: #dc2626; }
+    .kpi-card.spotcheck { border-color: #0891b2; }
+    .kpi-card.certified { border-color: #7c3aed; }
+    .kpi-card.culture { border-color: #f59e0b; }
+    .kpi-card.pmc { border-color: #059669; }
+
+    .kpi-header {
+      padding: 1.5rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .kpi-card.qa .kpi-header { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .kpi-card.fcr .kpi-header { background: linear-gradient(135deg, #059669, #047857); }
+    .kpi-card.csat .kpi-header { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .kpi-card.calibration .kpi-header { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+    .kpi-card.monitoring .kpi-header { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .kpi-card.spotcheck .kpi-header { background: linear-gradient(135deg, #0891b2, #0e7490); }
+    .kpi-card.certified .kpi-header { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+    .kpi-card.culture .kpi-header { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .kpi-card.pmc .kpi-header { background: linear-gradient(135deg, #059669, #047857); }
+
+    .kpi-icon {
+      font-size: 2rem;
+      background: rgba(255,255,255,0.2);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kpi-title h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .kpi-title .target-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .kpi-body {
+      padding: 1.5rem;
+    }
+
+    .kpi-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .kpi-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .kpi-section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .kpi-section ul {
+      list-style: none;
+      padding-left: 0.5rem;
+    }
+
+    .kpi-section li {
+      padding: 0.35rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .kpi-section li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    /* DATA GOVERNANCE */
+    .governance-box {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .governance-box h3 {
+      color: white;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .governance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .governance-item {
+      background: rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--secondary);
+    }
+
+    .governance-item strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--warning);
+    }
+
+    .governance-item p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    /* TECH STACK */
+    .tech-section {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .tech-section h3 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tech-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tech-category {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 2px solid var(--secondary);
+    }
+
+    .tech-category h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-tag {
+      background: var(--light);
+      border: 1px solid var(--secondary);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .tech-tag.premium {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+    }
+
+    /* DATA FLOW */
+    .data-flow {
+      margin-top: 2rem;
+    }
+
+    .data-flow h3 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .flow-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .flow-steps::before {
+      content: "";
+      position: absolute;
+      top: 30px;
+      left: 5%;
+      right: 5%;
+      height: 3px;
+      background: var(--secondary);
+      z-index: 1;
+    }
+
+    .flow-step {
+      background: white;
+      border: 3px solid var(--secondary);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: var(--primary);
+      position: relative;
+      z-index: 2;
+    }
+
+    .flow-step-label {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 120px;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* KPI TREE */
+    .kpi-tree {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      border: 2px solid var(--secondary);
+    }
+
+    .kpi-tree h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .tree-levels {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tree-level {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--light);
+      border-radius: 8px;
+    }
+
+    .tree-level.macro { border-left: 4px solid var(--primary); }
+    .tree-level.meso { border-left: 4px solid var(--secondary); }
+    .tree-level.micro { border-left: 4px solid var(--success); }
+
+    .tree-level strong {
+      min-width: 80px;
+      color: var(--dark);
+    }
+
+    .tree-level span {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    /* REPORTING CADENCE */
+    .reporting-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .report-card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 8px;
+      text-align: center;
+      border: 2px solid var(--secondary);
+    }
+
+    .report-card.daily { border-color: var(--success); background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+    .report-card.weekly { border-color: var(--warning); background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+    .report-card.monthly { border-color: var(--primary); background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+
+    .report-card .frequency {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .report-card .description {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .flow-steps { flex-direction: column; align-items: flex-start; }
+      .flow-steps::before { display: none; }
+      .flow-step-label { position: relative; top: auto; left: auto; transform: none; width: auto; text-align: left; margin-left: 80px; }
+      .flow-step { margin-bottom: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <h1>📊 Indicadores e Tecnologia</h1>
+      <p>Arquitetura de dados robusta, KPIs alinhados ao COPC e stack tecnológico moderno para garantir visibilidade, confiabilidade e ação baseada em evidências na operação BPO Agibank.</p>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="section">
+      <h2>🎯 KPIs Principais: Definição, Fonte e Report</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Cada KPI possui definição clara, fonte de dados validada, governança estabelecida e rotina de report definida. Todos seguem padrão COPC para comparabilidade e benchmark.</p>
+      
+      <div class="kpi-grid">
+        
+        <!-- QA Score -->
+        <div class="kpi-card qa">
+          <div class="kpi-header">
+            <div class="kpi-icon">🎯</div>
+            <div class="kpi-title">
+              <h3>QA Score</h3>
+              <span class="target-badge">Meta: ≥ 85%</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Monitoramento diário da qualidade do atendimento</li>
+                <li>Avaliação baseada em checklist padronizado</li>
+                <li>Peso diferenciado para itens críticos regulatórios</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>CRM próprio ou players: Talkdesk, Zendesk, NICE, LiveAgent, 3CX, Twilio, QualiTalk, Invoca</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Dashboard D-1 com árvore do KPI (Macro → Micro)</li>
+                <li>Granulações: Canal, BPO, Equipe, Agente, Período</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- FCR -->
+        <div class="kpi-card fcr">
+          <div class="kpi-header">
+            <div class="kpi-icon">✅</div>
+            <div class="kpi-title">
+              <h3>FCR (First Contact Resolution)</h3>
+              <span class="target-badge">Meta: COPC Standard</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li><strong>FCR Quantitativo:</strong> Pesquisa CSAT pós-atendimento (pergunta binária)</li>
+                <li><strong>FCR Qualitativo:</strong> Monitoria de processos (aba extra no checklist)</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>2 fontes distintas para validação cruzada</li>
+                <li>Integração entre pesquisa e monitoria</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Dashboard D-1 com árvore do KPI (Macro → Micro)</li>
+                <li>Comparativo entre FCR Quantitativo vs Qualitativo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSAT -->
+        <div class="kpi-card csat">
+          <div class="kpi-header">
+            <div class="kpi-icon">⭐</div>
+            <div class="kpi-title">
+              <h3>CSAT (Satisfação do Cliente)</h3>
+              <span class="target-badge">Escala: 1-5</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Nota transacional do cliente pós-atendimento</li>
+                <li>Escala de 1 a 5 pontos</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>Transferência pós-atendimento (URA)</li>
+                <li>Ciclos de mensagem WhatsApp ou SMS</li>
+                <li>Rastreio via VDN para vincular ao agente</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Dashboard D-1 com árvore do KPI (Macro → Micro)</li>
+                <li>Drill-down por motivo de contato, canal, agente</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desvio de Calibragem -->
+        <div class="kpi-card calibration">
+          <div class="kpi-header">
+            <div class="kpi-icon">🎚️</div>
+            <div class="kpi-title">
+              <h3>Desvio de Calibragem</h3>
+              <span class="target-badge">Meta: ≤ 5pp</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Diferença de nota entre avaliadores na mesma ligação</li>
+                <li>Resultado das sessões de calibração COPC</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>Sistema oficial de monitoramento</li>
+                <li>Registro obrigatório de todas as sessões</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Ata de calibração por sessão</li>
+                <li>Dashboard histórico de resultados por monitor</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aderência Monitoramento Inteligente -->
+        <div class="kpi-card monitoring">
+          <div class="kpi-header">
+            <div class="kpi-icon">🧠</div>
+            <div class="kpi-title">
+              <h3>Aderência Monitoramento Inteligente</h3>
+              <span class="target-badge">Meta: ≥ 85%</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Quanto a amostra segue padrões definidos no planejamento</li>
+                <li>Baseado em: dor do cliente, recorrência, quartilização operacional</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>Planejamento amostral de Qualidade</li>
+                <li>Execução real vs planejado</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Ata da reunião semanal de Qualidade</li>
+                <li>Prévia de aderência com plano de correção</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spot Check -->
+        <div class="kpi-card spotcheck">
+          <div class="kpi-header">
+            <div class="kpi-icon">🔍</div>
+            <div class="kpi-title">
+              <h3>Spot Check (Monitoria da Monitoria)</h3>
+              <span class="target-badge">Meta: ≤ 5pp desvio</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Volume e resultado do Spot Check por monitor</li>
+                <li>Meta: 1 spot check/mês (ou 1x/semana se desvio ≥ 5pp)</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>CRM de monitoramento</li>
+                <li>Banco de dados SQL de qualidade</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Ata da reunião semanal de Qualidade</li>
+                <li>Tratamento de desvios com plano de ação</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monitores Certificados -->
+        <div class="kpi-card certified">
+          <div class="kpi-header">
+            <div class="kpi-icon">🎓</div>
+            <div class="kpi-title">
+              <h3>Monitores Certificados</h3>
+              <span class="target-badge">Meta: ≥ 85%</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Volume de monitores certificados pela Cia (Agibank)</li>
+                <li>Considera: resultados de desvio + produtividade</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>Resultados de Spot Check</li>
+                <li>Monitoria da monitoria pela Cia (certificação formal)</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Sazonal: Emissão de certificado via E-mail</li>
+                <li>Reconhecimento público em comitês</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aderência à Cultura -->
+        <div class="kpi-card culture">
+          <div class="kpi-header">
+            <div class="kpi-icon">🌱</div>
+            <div class="kpi-title">
+              <h3>Aderência à Cultura</h3>
+              <span class="target-badge">Meta: ≥ 80%</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Composite de: Ritos realizados, Monitores certificados</li>
+                <li>Playbook atualizado, Resultado de auditorias</li>
+                <li>Gamificação comercial</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>Tabela SQL exclusiva com resultados históricos</li>
+                <li>Consolidação de múltiplas fontes</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Dashboard consolidado</li>
+                <li>Menção nas reuniões Quinzenais e Mensais</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- PMC -->
+        <div class="kpi-card pmc">
+          <div class="kpi-header">
+            <div class="kpi-icon">🔄</div>
+            <div class="kpi-title">
+              <h3>PMC (Melhoria Contínua)</h3>
+              <span class="target-badge">Binário: 0% ou 100%</span>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📍</span> Definição</div>
+              <ul>
+                <li>Binário: Mês com plano de melhoria = 100%, sem plano = 0%</li>
+                <li>NA se não houver projeto/KPI para abertura do PMC</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>🔌</span> Fonte</div>
+              <ul>
+                <li>Tabela SQL exclusiva com resultados históricos</li>
+                <li>Board de projetos de PMC</li>
+              </ul>
+            </div>
+            <div class="kpi-section">
+              <div class="kpi-section-title"><span>📋</span> Report</div>
+              <ul>
+                <li>Dashboard consolidado</li>
+                <li>Menção no rito exclusivo para PMC</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- KPI TREE -->
+      <div class="kpi-tree">
+        <h4>🌳 Árvore de KPIs: Do Macro ao Micro</h4>
+        <p style="margin-bottom: 1rem; color: var(--gray); font-size: 0.9rem;">Todos os dashboards seguem estrutura hierárquica para permitir drill-down e identificação precisa de oportunidades.</p>
+        <div class="tree-levels">
+          <div class="tree-level macro">
+            <strong>Macro:</strong>
+            <span>Visão Corporativa (Agibank Total, Todos BPOs, Todos Canais)</span>
+          </div>
+          <div class="tree-level meso">
+            <strong>Meso:</strong>
+            <span>Visão por LOB/Canal (SAC, CAC, Regulatórios, Mídias)</span>
+          </div>
+          <div class="tree-level micro">
+            <strong>Micro:</strong>
+            <span>Visão por BPO, Equipe, Agente, Período (Dia/Semana/Mês)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA GOVERNANCE -->
+    <div class="section">
+      <h2>🔒 Governança de Dados</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Arquitetura robusta para garantir integridade, segurança e disponibilidade dos dados de qualidade.</p>
+      
+      <div class="governance-box">
+        <h3>🏗️ Arquitetura de Dados</h3>
+        <div class="governance-grid">
+          <div class="governance-item">
+            <strong>📦 Armazenamento</strong>
+            <p>Servidores e Banco de Dados SQL com normalização nas melhores práticas</p>
+          </div>
+          <div class="governance-item">
+            <strong>🔮 Processamento</strong>
+            <p>Databricks e DataLake centralizado (somente na zona de consumo) para modelagens</p>
+          </div>
+          <div class="governance-item">
+            <strong>📐 Padrão</strong>
+            <p>Definição regida pelo método COPC para comparabilidade e benchmark</p>
+          </div>
+          <div class="governance-item">
+            <strong>🔗 Integração</strong>
+            <p>APIs com parceiros ou servidor e CRM próprio para extrações automáticas</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATA FLOW -->
+      <div class="data-flow">
+        <h3>🔄 Fluxo de Dados: Da Coleta ao Dashboard</h3>
+        <div class="flow-steps">
+          <div>
+            <div class="flow-step">1</div>
+            <div class="flow-step-label"><strong>Coleta</strong><br><small>CRM/VDN</small></div>
+          </div>
+          <div>
+            <div class="flow-step">2</div>
+            <div class="flow-step-label"><strong>Extração</strong><br><small>API/ETL</small></div>
+          </div>
+          <div>
+            <div class="flow-step">3</div>
+            <div class="flow-step-label"><strong>Tratamento</strong><br><small>SQL/Databricks</small></div>
+          </div>
+          <div>
+            <div class="flow-step">4</div>
+            <div class="flow-step-label"><strong>Modelagem</strong><br><small>DataLake</small></div>
+          </div>
+          <div>
+            <div class="flow-step">5</div>
+            <div class="flow-step-label"><strong>Visualização</strong><br><small>PowerBI/Tableau</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECHNOLOGY STACK -->
+    <div class="section">
+      <h2>🛠️ Tecnologias e Ferramentas</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Stack tecnológico moderno e escalável, com opções premium e alternativas de codificação própria dependendo do orçamento.</p>
+      
+      <div class="tech-section">
+        <h3>📊 Stack de Analytics & BI</h3>
+        <div class="tech-categories">
+          
+          <div class="tech-category">
+            <h4>📈 Dashboards & Visualização</h4>
+            <div class="tech-list">
+              <span class="tech-tag premium">Power BI</span>
+              <span class="tech-tag">Tableau (Alternativa)</span>
+              <span class="tech-tag">Looker Studio</span>
+              <span class="tech-tag">Qlik Sense</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>🗄️ Banco de Dados & ETL</h4>
+            <div class="tech-list">
+              <span class="tech-tag premium">SQL Server</span>
+              <span class="tech-tag premium">Databricks</span>
+              <span class="tech-tag">Azure Data Lake</span>
+              <span class="tech-tag">Snowflake</span>
+              <span class="tech-tag">PostgreSQL</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>🐍 Programação & Automação</h4>
+            <div class="tech-list">
+              <span class="tech-tag premium">Python</span>
+              <span class="tech-tag premium">JavaScript</span>
+              <span class="tech-tag">R (Estatística)</span>
+              <span class="tech-tag">Power Automate</span>
+              <span class="tech-tag">Azure Functions</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>🔗 Integração & APIs</h4>
+            <div class="tech-list">
+              <span class="tech-tag premium">Azure DevOps</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">Webhooks</span>
+              <span class="tech-tag">Zapier/Make</span>
+              <span class="tech-tag">Postman</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>🎙️ Speech & Text Analytics</h4>
+            <div class="tech-list">
+              <span class="tech-tag premium">NICE Enlighten</span>
+              <span class="tech-tag premium">Verint</span>
+              <span class="tech-tag">Google Speech-to-Text</span>
+              <span class="tech-tag">AWS Transcribe</span>
+              <span class="tech-tag">Codificação Própria (Python)</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>📋 Gestão de Projetos</h4>
+            <div class="tech-list">
+              <span class="tech-tag premium">Azure DevOps</span>
+              <span class="tech-tag">Jira</span>
+              <span class="tech-tag">GitHub Projects</span>
+              <span class="tech-tag">Trello</span>
+              <span class="tech-tag">Monday.com</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SPEECH ANALYTICS DEEP DIVE -->
+      <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #1e293b, #334155); border-radius: 12px; color: white;">
+        <h3 style="color: white; margin-bottom: 1rem;">🎙️ Speech & Text Analytics: Implementação por Nível de Maturidade</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+          <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 8px;">
+            <strong style="color: var(--warning); display: block; margin-bottom: 0.5rem;">🥉 Nível 1: Básico</strong>
+            <p style="font-size: 0.85rem; opacity: 0.9;">Transcrição manual de amostras + análise de palavras-chave em Python. Custo baixo, esforço alto.</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 8px;">
+            <strong style="color: var(--warning); display: block; margin-bottom: 0.5rem;">🥈 Nível 2: Intermediário</strong>
+            <p style="font-size: 0.85rem; opacity: 0.9;">API Google Speech-to-Text ou AWS Transcribe + processamento em Python. Custo médio, escalável.</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 8px;">
+            <strong style="color: var(--warning); display: block; margin-bottom: 0.5rem;">🥇 Nível 3: Premium</strong>
+            <p style="font-size: 0.85rem; opacity: 0.9;">NICE Enlighten ou Verint com IA nativa. Custo alto, mas análise em tempo real, sentiment analysis, detecção de emoção.</p>
+          </div>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">💡 <strong>Recomendação:</strong> Iniciar com Nível 2 (API + Python) e evoluir para Nível 3 conforme ROI comprovado e budget disponível.</p>
+      </div>
+
+      <!-- REPORTING CADENCE -->
+      <h3 style="margin-top: 2rem; color: var(--primary);">📅 Cadência de Report</h3>
+      <div class="reporting-grid">
+        <div class="report-card daily">
+          <span class="frequency">📊 D-1</span>
+          <span class="description">Dashboards operacionais atualizados diariamente para gestão tática</span>
+        </div>
+        <div class="report-card weekly">
+          <span class="frequency">📋 Semanal</span>
+          <span class="description">Atas de reunião, Spot Check, Aderência de Monitoramento Inteligente</span>
+        </div>
+        <div class="report-card monthly">
+          <span class="frequency">📈 Mensal</span>
+          <span class="description">Consolidados estratégicos, Cultura, PMC, Certificação de Monitores</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs ORGANIZACIONAIS -->
+    <div class="section">
+      <h2>📌 KPIs Organizacionais (Operações)</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Demais KPIs organizacionais continuam sendo monitorados e governados por Operações, com apoio de Qualidade nas cerimônias.</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div style="background: var(--light); padding: 1.25rem; border-radius: 8px; text-align: center; border: 2px solid var(--gray);">
+          <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">⏱️</span>
+          <strong>TMA</strong>
+          <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.25rem;">Tempo Médio de Atendimento</p>
+        </div>
+        <div style="background: var(--light); padding: 1.25rem; border-radius: 8px; text-align: center; border: 2px solid var(--gray);">
+          <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">📞</span>
+          <strong>TME</strong>
+          <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.25rem;">Tempo Médio de Espera</p>
+        </div>
+        <div style="background: var(--light); padding: 1.25rem; border-radius: 8px; text-align: center; border: 2px solid var(--gray);">
+          <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">📉</span>
+          <strong>ABS</strong>
+          <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.25rem;">Absenteísmo</p>
+        </div>
+        <div style="background: var(--light); padding: 1.25rem; border-radius: 8px; text-align: center; border: 2px solid var(--gray);">
+          <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">📊</span>
+          <strong>NS</strong>
+          <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.25rem;">Nível de Serviço</p>
+        </div>
+        <div style="background: var(--light); padding: 1.25rem; border-radius: 8px; text-align: center; border: 2px solid var(--gray);">
+          <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">💰</span>
+          <strong>TO</strong>
+          <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.25rem;">Taxa de Ocupação</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem; padding: 1rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid var(--secondary);">
+        <strong>💡 Papel da Qualidade:</strong> Embora Operações governe estes KPIs, Qualidade participa ativamente das cerimônias para correlacionar com QA Score, FCR e CSAT — garantindo que eficiência não comprometa experiência.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Interatividade básica: highlight de cards ao hover
+    document.querySelectorAll('.kpi-card, .tech-category, .report-card, .governance-item').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+      });
+    });
+  </script>
+</body>
+</html>
