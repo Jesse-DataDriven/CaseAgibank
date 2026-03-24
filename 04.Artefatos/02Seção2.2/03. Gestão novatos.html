@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Novatos | Agibank BPO</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #3b82f6;
+      --success: #059669;
+      --warning: #f59e0b;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    body { background: var(--light); color: var(--dark); line-height: 1.6; padding: 2rem; }
+    
+    .ritual-card {
+      background: white;
+      border: 2px solid var(--warning);
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .ritual-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(245, 158, 11, 0.2);
+    }
+
+    .ritual-header {
+      padding: 1.5rem;
+      color: white;
+      background: linear-gradient(135deg, var(--warning), #d97706);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .ritual-icon {
+      font-size: 2rem;
+      background: rgba(255,255,255,0.2);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ritual-title h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .frequency-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .ritual-body {
+      padding: 1.5rem;
+    }
+
+    .ritual-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .ritual-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .ritual-section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .ritual-section ul {
+      list-style: none;
+      padding-left: 0.5rem;
+    }
+
+    .ritual-section li {
+      padding: 0.35rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .ritual-section li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .kpi-box {
+      background: #fffbeb;
+      border-left: 4px solid var(--warning);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      text-align: center;
+    }
+
+    .kpi-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: block;
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 0.25rem;
+    }
+
+    .nesting-highlight {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .nesting-highlight strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .nesting-highlight p {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="ritual-card">
+    <div class="ritual-header">
+      <div class="ritual-icon">🌱</div>
+      <div class="ritual-title">
+        <h3>Gestão de Novatos</h3>
+        <span class="frequency-badge">📆 Semanal • 1h</span>
+      </div>
+    </div>
+    <div class="ritual-body">
+      <div class="ritual-section">
+        <div class="ritual-section-title">
+          <span>📌</span> Frequência
+        </div>
+        <ul>
+          <li><strong>Quando:</strong> Toda semana (primeiros 90 dias do novato)</li>
+          <li><strong>Duração:</strong> 1 hora (time-boxed)</li>
+          <li><strong>Participantes:</strong> Qualidade, Treinamento, Supervisor BPO</li>
+          <li><strong>Foco:</strong> Novatos em período de experiência</li>
+        </ul>
+      </div>
+      <div class="ritual-section">
+        <div class="ritual-section-title">
+          <span>🎯</span> Objetivos
+        </div>
+        <ul>
+          <li>Gestão ativa das novas safras na operação</li>
+          <li>Acompanhamento próximo da curva de aprendizado</li>
+          <li>Identificação precoce de gaps de treinamento</li>
+          <li>Redução de atrito no período de experiência</li>
+        </ul>
+      </div>
+      <div class="kpi-container">
+        <div class="kpi-box">
+          <span class="kpi-value">2x</span>
+          <span class="kpi-label">Amostra vs Veterano</span>
+        </div>
+        <div class="kpi-box">
+          <span class="kpi-value">≥ 85%</span>
+          <span class="kpi-label">QA ao Final do Ciclo</span>
+        </div>
+      </div>
+      <div class="nesting-highlight">
+        <strong>🎓 Nesting (Acompanhamento Pós-Entrega)</strong>
+        <p>Parte das monitorias deve ser realizada pelo <strong>Treinador</strong> para garantir continuidade do aprendizado e validação da efetividade do treinamento inicial.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
