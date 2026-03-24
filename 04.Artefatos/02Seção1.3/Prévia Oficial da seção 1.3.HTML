@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Governança de Qualidade | Agibank BPO</title>
+    <style>
+      :root {
+        --primary: #1e3a8a;
+        --secondary: #3b82f6;
+        --success: #059669;
+        --warning: #f59e0b;
+        --danger: #dc2626;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --gray: #64748b;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+      }
+
+      body {
+        background: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .section h2 {
+        color: var(--primary);
+        border-bottom: 3px solid var(--secondary);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .committees-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .committee-card {
+        border: 2px solid var(--secondary);
+        border-radius: 10px;
+        padding: 1.5rem;
+        transition: transform 0.2s;
+      }
+
+      .committee-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .committee-card.weekly {
+        border-color: var(--success);
+      }
+      .committee-card.biweekly {
+        border-color: var(--warning);
+      }
+      .committee-card.monthly {
+        border-color: var(--primary);
+      }
+
+      .committee-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .badge.weekly {
+        background: #dcfce7;
+        color: #166534;
+      }
+      .badge.biweekly {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .badge.monthly {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+
+      .committee-card ul {
+        list-style: none;
+      }
+      .committee-card li {
+        padding: 0.4rem 0;
+        padding-left: 1.5rem;
+        position: relative;
+      }
+      .committee-card li::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: var(--secondary);
+        font-weight: bold;
+      }
+
+      .approvals-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .approvals-table th,
+      .approvals-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .approvals-table th {
+        background: var(--primary);
+        color: white;
+        font-weight: 600;
+      }
+
+      .approvals-table tr:hover {
+        background: #f8fafc;
+      }
+
+      .trigger {
+        background: #fef2f2;
+        color: var(--danger);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .control-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .control-card {
+        background: #f8fafc;
+        border-left: 4px solid var(--secondary);
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .control-card.compliance {
+        border-left-color: var(--danger);
+      }
+      .control-card.quality {
+        border-left-color: var(--success);
+      }
+      .control-card.change {
+        border-left-color: var(--warning);
+      }
+
+      .escalation-steps {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0;
+        position: relative;
+      }
+
+      .escalation-steps::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        right: 10%;
+        height: 3px;
+        background: var(--secondary);
+        z-index: 1;
+      }
+
+      .step {
+        background: white;
+        border: 2px solid var(--secondary);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: var(--primary);
+        position: relative;
+        z-index: 2;
+      }
+
+      .step-label {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        width: 120px;
+        font-size: 0.85rem;
+        color: var(--gray);
+      }
+
+      .raci-matrix {
+        overflow-x: auto;
+        margin-top: 1rem;
+      }
+
+      .raci-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px;
+      }
+
+      .raci-table th,
+      .raci-table td {
+        padding: 0.75rem;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+      }
+
+      .raci-table th {
+        background: var(--primary);
+        color: white;
+      }
+
+      .raci-cell {
+        font-weight: 600;
+        padding: 0.5rem;
+        border-radius: 4px;
+      }
+
+      .raci-R {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .raci-A {
+        background: #dcfce7;
+        color: #166534;
+      }
+      .raci-C {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .raci-I {
+        background: #f1f5f9;
+        color: #475569;
+      }
+
+      .legend {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+        .committees-grid {
+          grid-template-columns: 1fr;
+        }
+        .escalation-steps {
+          flex-direction: column;
+          gap: 2rem;
+        }
+        .escalation-steps::before {
+          display: none;
+        }
+        .step-label {
+          position: relative;
+          top: auto;
+          left: auto;
+          transform: none;
+          width: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- HERO -->
+      <div class="hero">
+        <h1>🎯 Modelo de Governança de Qualidade</h1>
+        <p>
+          Estrutura de comitês, aprovações e pontos de controle para garantir
+          excelência operacional, conformidade regulatória e melhoria contínua
+          na operação BPO Agibank.
+        </p>
+      </div>
+
+      <!-- COMMITTEES -->
+      <div class="section">
+        <h2>📅 Níveis de Comitês & Ritos de Gestão</h2>
+        <div class="committees-grid">
+          <!-- Weekly -->
+          <div class="committee-card weekly">
+            <div class="committee-header">
+              <h3>🔄 Huddle Operacional</h3>
+              <span class="badge weekly">Semanal • 1h</span>
+            </div>
+            <ul>
+              <li>
+                <strong>Público:</strong> Coord. Qualidade, Supervisores BPO,
+                Ops Support
+              </li>
+              <li>
+                <strong>Objetivo:</strong> Resolução ágil de barreiras
+                operacionais
+              </li>
+              <li>
+                <strong>Agenda:</strong> Dores do dia, desvios críticos, plano
+                de ação 24h
+              </li>
+              <li>
+                <strong>Output:</strong> Lista de ações com dono e prazo
+                (trackeado no Kanban)
+              </li>
+              <li>
+                <strong>Gatilho de Escala:</strong> Problema não resolvido em
+                48h → sobe para Quality Council
+              </li>
+            </ul>
+          </div>
+
+          <!-- Bi-weekly -->
+          <div class="committee-card biweekly">
+            <div class="committee-header">
+              <h3>⚖️ Quality Council</h3>
+              <span class="badge biweekly">Quinzenal • 2h</span>
+            </div>
+            <ul>
+              <li>
+                <strong>Público:</strong> Coord. Qualidade, Gerente BPO,
+                Compliance, Treinamento
+              </li>
+              <li>
+                <strong>Objetivo:</strong> Alinhamento tático e preparação do
+                comitê mensal
+              </li>
+              <li>
+                <strong>Agenda:</strong> Parcial de indicadores, calibração de
+                critérios, revisão de checklist
+              </li>
+              <li>
+                <strong>Output:</strong> Pré-aprovações, ajustes de processo,
+                matriz de riscos atualizada
+              </li>
+              <li>
+                <strong>Regra:</strong> Decisões táticas válidas até o próximo
+                council (revisão mensal)
+              </li>
+            </ul>
+          </div>
+
+          <!-- Monthly -->
+          <div class="committee-card monthly">
+            <div class="committee-header">
+              <h3>📊 Comitê Estratégico (DRE Quality)</h3>
+              <span class="badge monthly">Mensal • 3h</span>
+            </div>
+            <ul>
+              <li>
+                <strong>Público:</strong> Diretoria, Coord. Qualidade, Heads de
+                LOB, Compliance
+              </li>
+              <li>
+                <strong>Objetivo:</strong> Review estratégico, ROI de
+                iniciativas, decisão de investimento
+              </li>
+              <li>
+                <strong>Agenda:</strong> Resultados por canal, causas raiz,
+                ganhos de treinamento, roadmap PMC
+              </li>
+              <li>
+                <strong>Output:</strong> Aprovação de mudanças estruturais,
+                budget para melhorias, metas do próximo ciclo
+              </li>
+              <li>
+                <strong>Regra:</strong> Decisões estratégicas documentadas em
+                ata com plano de implementação
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #eff6ff;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+          "
+        >
+          <strong>💡 Regra de Ouro:</strong> Todas as reuniões devem ter
+          <em>Operações da Cia</em> como participantes obrigatórios ou
+          convidados no schedule. Qualidade não decide sozinha — governa em
+          conjunto.
+        </div>
+      </div>
+
+      <!-- APPROVALS -->
+      <div class="section">
+        <h2>✅ Matriz de Aprovações & Gatilhos</h2>
+        <table class="approvals-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Gatilho / Condição</th>
+              <th>Alçada de Aprovação</th>
+              <th>SLA de Resposta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Desvio de Calibração</strong></td>
+              <td>
+                <span class="trigger">Desvio > 5pp</span> entre avaliadores
+              </td>
+              <td>Coord. Qualidade + Calibrador Master</td>
+              <td>48h úteis</td>
+            </tr>
+            <tr>
+              <td><strong>Contestação de NCG</strong></td>
+              <td>Solicitação de tréplica com evidências</td>
+              <td>Coord. Qualidade (decisão final)</td>
+              <td>72h úteis</td>
+            </tr>
+            <tr>
+              <td><strong>Queda de QA Score</strong></td>
+              <td>
+                <span class="trigger">Queda acumulada ≥ 3pp</span> semana a
+                semana
+              </td>
+              <td>Aciona gravidade no Huddle Semanal</td>
+              <td>Imediato (próximo huddle)</td>
+            </tr>
+            <tr>
+              <td><strong>Revisão de Checklist</strong></td>
+              <td>Solicitação de mudança de critério/peso</td>
+              <td>Coord. Qualidade + Coord. Operações (consenso)</td>
+              <td>5 dias úteis</td>
+            </tr>
+            <tr>
+              <td><strong>LNT (Treinamento)</strong></td>
+              <td>Gap de proficiência identificado</td>
+              <td>Pilar Treinamento emite + DA formal da Coord. Operações</td>
+              <td>3 dias úteis</td>
+            </tr>
+            <tr>
+              <td><strong>Mudança de Processo</strong></td>
+              <td>Solicitação de alteração de fluxo/jornada</td>
+              <td>Comitê de Mudança (Qualidade, Ops, Compliance, TI)</td>
+              <td>10 dias úteis + impacto avaliado</td>
+            </tr>
+            <tr>
+              <td><strong>Incidente Regulatório</strong></td>
+              <td>Qualquer não conformidade Bacen/LGPD</td>
+              <td>Compliance + Coord. Qualidade + Diretoria (se crítico)</td>
+              <td>Imediato + reporte em 24h</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CONTROL POINTS -->
+      <div class="section">
+        <h2>🔒 Pontos de Controle (Control Gates)</h2>
+        <div class="control-points">
+          <div class="control-card quality">
+            <strong>🎯 Gate de Qualidade</strong>
+            <p>Nova safra de atendentes só libera para produção após:</p>
+            <ul style="margin-top: 0.5rem; font-size: 0.9rem">
+              <li>✓ QA Score ≥ 85% em simulado</li>
+              <li>✓ Checklist de onboarding 100%</li>
+              <li>✓ Aprovação do Supervisor + Qualidade</li>
+            </ul>
+          </div>
+
+          <div class="control-card compliance">
+            <strong>⚖️ Gate de Compliance</strong>
+            <p>Mudança em processo regulado exige:</p>
+            <ul style="margin-top: 0.5rem; font-size: 0.9rem">
+              <li>✓ Análise de impacto regulatório</li>
+              <li>✓ Aprovação formal do Compliance</li>
+              <li>✓ Comunicação ao BPO com evidência de recebimento</li>
+            </ul>
+          </div>
+
+          <div class="control-card change">
+            <strong>🔄 Gate de Mudança</strong>
+            <p>Alteração de checklist ou critério passa por:</p>
+            <ul style="margin-top: 0.5rem; font-size: 0.9rem">
+              <li>✓ Teste piloto em 1 BPO/canal</li>
+              <li>✓ Validação estatística de impacto</li>
+              <li>✓ Aprovação em Quality Council</li>
+            </ul>
+          </div>
+
+          <div class="control-card">
+            <strong>📊 Gate de Dados</strong>
+            <p>Relatórios oficiais para diretoria exigem:</p>
+            <ul style="margin-top: 0.5rem; font-size: 0.9rem">
+              <li>✓ Validação de integridade da fonte</li>
+              <li>✓ Revisão por par (Qualidade + BI)</li>
+              <li>✓ Assinatura digital do responsável</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESCALATION -->
+      <div class="section">
+        <h2>🚨 Matriz de Escalonamento</h2>
+        <p style="margin-bottom: 1.5rem">
+          Problemas não resolvidos no nível operacional seguem fluxo
+          pré-definido para evitar "gargalo de decisão".
+        </p>
+
+        <div class="escalation-steps">
+          <div>
+            <div class="step">1</div>
+            <div class="step-label">
+              Supervisor BPO<br /><small>Resolução imediata</small>
+            </div>
+          </div>
+          <div>
+            <div class="step">2</div>
+            <div class="step-label">
+              Coord. Qualidade<br /><small>48h para plano de ação</small>
+            </div>
+          </div>
+          <div>
+            <div class="step">3</div>
+            <div class="step-label">
+              Quality Council<br /><small>Decisão tática</small>
+            </div>
+          </div>
+          <div>
+            <div class="step">4</div>
+            <div class="step-label">
+              Comitê Estratégico<br /><small>Decisão estrutural</small>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fef2f2;
+            border-radius: 8px;
+            border-left: 4px solid var(--danger);
+          "
+        >
+          <strong>⚠️ Gatilho de Crise:</strong> Incidente regulatório, vazamento
+          de dados ou queda de NPS > 15pp em 7 dias aciona
+          <em>Comitê de Crise</em> com resposta em até 4h e reporte à diretoria
+          em 24h.
+        </div>
+      </div>
+
+      <!-- RACI -->
+      <div class="section">
+        <h2>👥 RACI de Decisões-Chave</h2>
+        <p style="margin-bottom: 1rem">
+          <strong>R</strong>=Responsável (executa) |
+          <strong>A</strong>=Aprovador (decide) | <strong>C</strong>=Consultado
+          (opina) | <strong>I</strong>=Informado (acompanha)
+        </p>
+
+        <div class="raci-matrix">
+          <table class="raci-table">
+            <thead>
+              <tr>
+                <th>Decisão / Atividade</th>
+                <th>Qualidade</th>
+                <th>Operações</th>
+                <th>BPO</th>
+                <th>Compliance</th>
+                <th>Treinamento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Definir critério de checklist</td>
+                <td class="raci-cell raci-A">A</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-R">R</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-I">I</td>
+              </tr>
+              <tr>
+                <td>Aprovar plano de ação corretivo</td>
+                <td class="raci-cell raci-A">A</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-R">R</td>
+                <td class="raci-cell raci-I">I</td>
+                <td class="raci-cell raci-I">I</td>
+              </tr>
+              <tr>
+                <td>Liberar nova safra para produção</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-A">A</td>
+                <td class="raci-cell raci-R">R</td>
+                <td class="raci-cell raci-I">I</td>
+                <td class="raci-cell raci-C">C</td>
+              </tr>
+              <tr>
+                <td>Alterar processo regulado</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-R">R</td>
+                <td class="raci-cell raci-A">A</td>
+                <td class="raci-cell raci-I">I</td>
+              </tr>
+              <tr>
+                <td>Definir matriz de treinamento</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-A">A</td>
+                <td class="raci-cell raci-I">I</td>
+                <td class="raci-cell raci-I">I</td>
+                <td class="raci-cell raci-R">R</td>
+              </tr>
+              <tr>
+                <td>Reportar incidente regulatório</td>
+                <td class="raci-cell raci-R">R</td>
+                <td class="raci-cell raci-C">C</td>
+                <td class="raci-cell raci-I">I</td>
+                <td class="raci-cell raci-A">A</td>
+                <td class="raci-cell raci-I">I</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: #dbeafe"></div>
+            R = Executa
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #dcfce7"></div>
+            A = Aprova
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #fef3c7"></div>
+            C = Consulta
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #f1f5f9"></div>
+            I = Informa
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Interatividade básica: highlight de cards ao hover
+      document
+        .querySelectorAll('.committee-card, .control-card')
+        .forEach((card) => {
+          card.addEventListener('mouseenter', function () {
+            this.style.boxShadow =
+              '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+          });
+          card.addEventListener('mouseleave', function () {
+            this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+          });
+        });
+    </script>
+  </body>
+</html>
