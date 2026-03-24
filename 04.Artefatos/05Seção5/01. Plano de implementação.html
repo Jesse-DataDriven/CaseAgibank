@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano de Implementação | Agibank BPO</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #3b82f6;
+      --success: #059669;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --purple: #7c3aed;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    body { background: var(--light); color: var(--dark); line-height: 1.6; }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin: 0 auto; }
+    
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* TIMELINE PHASES */
+    .timeline-container {
+      margin-top: 2rem;
+    }
+
+    .timeline-phases {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .phase-card {
+      flex: 1;
+      min-width: 300px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+      transition: all 0.3s ease;
+    }
+
+    .phase-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .phase-card.phase1 { border-color: var(--success); }
+    .phase-card.phase2 { border-color: var(--warning); }
+    .phase-card.phase3 { border-color: var(--purple); }
+
+    .phase-header {
+      padding: 1.5rem;
+      color: white;
+      text-align: center;
+    }
+
+    .phase-card.phase1 .phase-header { background: linear-gradient(135deg, var(--success), #047857); }
+    .phase-card.phase2 .phase-header { background: linear-gradient(135deg, var(--warning), #d97706); }
+    .phase-card.phase3 .phase-header { background: linear-gradient(135deg, var(--purple), #6d28d9); }
+
+    .phase-number {
+      font-size: 3rem;
+      font-weight: bold;
+      opacity: 0.3;
+      display: block;
+      margin-bottom: -1rem;
+    }
+
+    .phase-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+
+    .phase-duration {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .phase-body {
+      padding: 1.5rem;
+    }
+
+    .phase-objective {
+      background: var(--light);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .phase-objective.phase1 { border-left-color: var(--success); }
+    .phase-objective.phase2 { border-left-color: var(--warning); }
+    .phase-objective.phase3 { border-left-color: var(--purple); }
+
+    .phase-objective strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-objective p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    .phase-initiatives {
+      list-style: none;
+    }
+
+    .phase-initiatives li {
+      padding: 0.6rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--dark);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .phase-initiatives li:last-child {
+      border-bottom: none;
+    }
+
+    .phase-initiatives li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .phase-deliverables {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eff6ff;
+      border-radius: 8px;
+    }
+
+    .phase-deliverables strong {
+      color: var(--primary);
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-deliverables ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .phase-deliverables li {
+      background: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      border: 1px solid var(--secondary);
+    }
+
+    /* QUICK WINS */
+    .quick-wins {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid var(--success);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .quick-wins h3 {
+      color: var(--success);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quick-wins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .quick-win-item {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--success);
+    }
+
+    .quick-win-item h4 {
+      color: var(--primary);
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .quick-win-item p {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    /* RISK MATRIX */
+    .risk-matrix {
+      margin-top: 2rem;
+    }
+
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .risk-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--danger);
+    }
+
+    .risk-header {
+      padding: 1rem 1.5rem;
+      color: white;
+      background: linear-gradient(135deg, var(--danger), #b91c1c);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .risk-header h3 {
+      font-size: 1.1rem;
+    }
+
+    .risk-level {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .risk-body {
+      padding: 1.5rem;
+    }
+
+    .risk-section {
+      margin-bottom: 1rem;
+    }
+
+    .risk-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .risk-section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .risk-section ul {
+      list-style: none;
+    }
+
+    .risk-section li {
+      padding: 0.4rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .risk-section li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    .mitigation-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 0.5rem;
+    }
+
+    .mitigation-box strong {
+      color: var(--success);
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+    }
+
+    .mitigation-box p {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    /* RESULTS & MEASUREMENT */
+    .results-container {
+      margin-top: 2rem;
+    }
+
+    .kanban-preview {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      border-radius: 12px;
+      padding: 2rem;
+      color: white;
+      margin-top: 1.5rem;
+    }
+
+    .kanban-preview h3 {
+      color: white;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .kanban-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .kanban-column {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .kanban-column h4 {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .kanban-column.phase1 h4 { border-color: var(--success); }
+    .kanban-column.phase2 h4 { border-color: var(--warning); }
+    .kanban-column.phase3 h4 { border-color: var(--purple); }
+
+    .kanban-card {
+      background: white;
+      color: var(--dark);
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      border-left: 3px solid var(--secondary);
+    }
+
+    .kanban-card.completed {
+      opacity: 0.7;
+      text-decoration: line-through;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .metric-card {
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: block;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 0.5rem;
+    }
+
+    /* SUCCESS CRITERIA */
+    .success-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .success-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 2px solid var(--success);
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    }
+
+    .success-card h3 {
+      color: var(--success);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .success-card ul {
+      list-style: none;
+    }
+
+    .success-card li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+
+    .success-card li::before {
+      content: "🎯";
+      position: absolute;
+      left: 0;
+    }
+
+    /* GANTT VISUALIZATION */
+    .gantt-container {
+      margin-top: 2rem;
+      overflow-x: auto;
+    }
+
+    .gantt-chart {
+      min-width: 800px;
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      border: 2px solid var(--secondary);
+    }
+
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 200px repeat(6, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+    }
+
+    .gantt-header {
+      font-weight: bold;
+      color: var(--primary);
+      font-size: 0.85rem;
+      text-align: center;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--secondary);
+    }
+
+    .gantt-label {
+      font-size: 0.85rem;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .gantt-bar {
+      height: 30px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: white;
+      font-weight: 600;
+    }
+
+    .gantt-bar.phase1 { background: var(--success); grid-column: 2 / span 2; }
+    .gantt-bar.phase2 { background: var(--warning); grid-column: 4 / span 2; }
+    .gantt-bar.phase3 { background: var(--purple); grid-column: 6 / span 2; }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .timeline-phases { flex-direction: column; }
+      .risk-grid { grid-template-columns: 1fr; }
+      .gantt-chart { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <h1>📅 Plano de Implementação (6 Meses)</h1>
+      <p>Roadmap estruturado em 3 fases com iniciativas claras, gestão de riscos proativa e mensuração de resultados via Kanban/DevOps para garantir entrega de valor sustentável na operação BPO Agibank.</p>
+    </div>
+
+    <!-- TIMELINE PHASES -->
+    <div class="section">
+      <h2>🗓️ Calendarização por Fases</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Implementação progressiva com Quick Wins nos primeiros 60 dias, consolidação cultural nos meses 3-4 e maturidade analítica nos meses 5-6.</p>
+      
+      <div class="timeline-container">
+        <div class="timeline-phases">
+          
+          <!-- PHASE 1 -->
+          <div class="phase-card phase1">
+            <div class="phase-header">
+              <span class="phase-number">01</span>
+              <div class="phase-title">Implementações Essenciais</div>
+              <span class="phase-duration">📆 Meses 1-2</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-objective phase1">
+                <strong>🎯 Objetivo</strong>
+                <p>Estabelecer fundamentos de saúde operacional: monitoramento, feedback e calibração funcionando com mínimo de 85% de aderência.</p>
+              </div>
+              <ul class="phase-initiatives">
+                <li>Estruturação da área de Qualidade (organograma + contratações)</li>
+                <li>Implementação de processo de monitoramento diário (CRM integrado)</li>
+                <li>Criação de checklists padronizados (COPC aligned)</li>
+                <li>Rito de Calibração Quinzenal (SpotCheck + Offline)</li>
+                <li>Processo de Feedback 24h para NCG</li>
+                <li>Dashboard D-1 de QA Score, FCR, CSAT</li>
+                <li>Gate de Qualidade para liberação de novatos</li>
+                <li>Mapeamento de processos críticos (SAC, CAC, LGPD)</li>
+              </ul>
+              <div class="phase-deliverables">
+                <strong>📦 Entregáveis:</strong>
+                <ul>
+                  <li>Organograma</li>
+                  <li>Checklists</li>
+                  <li>Dashboards D-1</li>
+                  <li>Atas de Calibração</li>
+                  <li>Playbook v1.0</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 2 -->
+          <div class="phase-card phase2">
+            <div class="phase-header">
+              <span class="phase-number">02</span>
+              <div class="phase-title">Gestão de Mudança (ADKAR)</div>
+              <span class="phase-duration">📆 Meses 3-4</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-objective phase2">
+                <strong>🎯 Objetivo</strong>
+                <p>Consolidar cultura de qualidade com KPIs de sustentação, ritos quinzenais e engajamento dos BPOs através de gamificação.</p>
+              </div>
+              <ul class="phase-initiatives">
+                <li>Implementação modelo ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement)</li>
+                <li>KPIs de sustentação de cultura (Aderência ≥ 80%)</li>
+                <li>Quality Council Quinzenal consolidado</li>
+                <li>Programa de Certificação de Monitores (Níveis 1-4)</li>
+                <li>Gamificação Commercial (Quality Champions League)</li>
+                <li>Rito Voice Of Customer (mensal com áudios reais)</li>
+                <li>Auditoria de Aderência Mensal por BPO</li>
+                <li>Trilhas de Capacitação (Onboarding + Produto + Compliance)</li>
+              </ul>
+              <div class="phase-deliverables">
+                <strong>📦 Entregáveis:</strong>
+                <ul>
+                  <li>Matriz ADKAR</li>
+                  <li>Scorecard Cultural</li>
+                  <li>Certificados</li>
+                  <li>Ranking BPOs</li>
+                  <li>Playbook v2.0</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 3 -->
+          <div class="phase-card phase3">
+            <div class="phase-header">
+              <span class="phase-number">03</span>
+              <div class="phase-title">Implementação Avançada</div>
+              <span class="phase-duration">📆 Meses 5-6</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-objective phase3">
+                <strong>🎯 Objetivo</strong>
+                <p>Maturidade analítica com ciência de dados apoiando PMC, predição de NPS/Churn e automação de insights.</p>
+              </div>
+              <ul class="phase-initiatives">
+                <li>Implementação de Speech & Text Analytics (API + Python)</li>
+                <li>Modelos preditivos de NPS e Churn (Machine Learning)</li>
+                <li>Projetos DMAIC com validação estatística (regressões, ANOVA)</li>
+                <li>Automação de extração de dados via APIs</li>
+                <li>Dashboard preditivo (não apenas D-1, mas D+30)</li>
+                <li>Integração de dados Qualidade + Financeiro + Ops</li>
+                <li>ROI calculado de todos projetos PMC</li>
+                <li>Lições aprendidas documentadas e biblioteca de casos</li>
+              </ul>
+              <div class="phase-deliverables">
+                <strong>📦 Entregáveis:</strong>
+                <ul>
+                  <li>Modelos Preditivos</li>
+                  <li>Speech Analytics</li>
+                  <li>ROI Report</li>
+                  <li>APIs Integradas</li>
+                  <li>Playbook v3.0</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- QUICK WINS -->
+        <div class="quick-wins">
+          <h3>⚡ Quick Wins (Primeiros 30 Dias)</h3>
+          <p style="margin-bottom: 1rem; color: var(--gray); font-size: 0.9rem;">Iniciativas de alto impacto e baixa complexidade para gerar credibilidade rápida.</p>
+          <div class="quick-wins-grid">
+            <div class="quick-win-item">
+              <h4>📋 Checklist Simplificado</h4>
+              <p>Reduzir de 50 para 30 itens críticos nos primeiros 15 dias</p>
+            </div>
+            <div class="quick-win-item">
+              <h4>🚨 Alerta NCG em Tempo Real</h4>
+              <p>Canal dedicado no Teams/WhatsApp para incidentes críticos</p>
+            </div>
+            <div class="quick-win-item">
+              <h4>🎯 Calibração Piloto</h4>
+              <p>1 sessão com 3 BPOs para validar metodologia antes de escalar</p>
+            </div>
+            <div class="quick-win-item">
+              <h4>📊 Dashboard MVP</h4>
+              <p>PowerBI básico com QA Score, FCR e CSAT em D-1</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GANTT CHART -->
+    <div class="section">
+      <h2>📊 Visualização Gantt das Fases</h2>
+      <div class="gantt-container">
+        <div class="gantt-chart">
+          <div class="gantt-row">
+            <div class="gantt-header">Iniciativa</div>
+            <div class="gantt-header">M1</div>
+            <div class="gantt-header">M2</div>
+            <div class="gantt-header">M3</div>
+            <div class="gantt-header">M4</div>
+            <div class="gantt-header">M5</div>
+            <div class="gantt-header">M6</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Estruturação da Área</div>
+            <div class="gantt-bar phase1">Fase 1</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Monitoramento & Checklists</div>
+            <div class="gantt-bar phase1">Fase 1</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Calibração & Feedback</div>
+            <div class="gantt-bar phase1">Fase 1</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Gestão de Mudança ADKAR</div>
+            <div class="gantt-bar phase2">Fase 2</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Certificação & Gamificação</div>
+            <div class="gantt-bar phase2">Fase 2</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Speech Analytics & IA</div>
+            <div class="gantt-bar phase3">Fase 3</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">Modelos Preditivos</div>
+            <div class="gantt-bar phase3">Fase 3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RISK MATRIX -->
+    <div class="section">
+      <h2>⚠️ Principais Riscos e Mitigações</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Rastreio proativo de riscos por fase com planos de mitigação específicos para garantir continuidade da implementação.</p>
+      
+      <div class="risk-matrix">
+        <div class="risk-grid">
+          
+          <!-- RISK 1 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <h3>🔒 BPO Esconde Dados</h3>
+              <span class="risk-level">Alto</span>
+            </div>
+            <div class="risk-body">
+              <div class="risk-section">
+                <div class="risk-section-title"><span>📍</span> Fase</div>
+                <ul>
+                  <li>Fase 1 (Meses 1-2)</li>
+                  <li>Fase 2 (Meses 3-4)</li>
+                </ul>
+              </div>
+              <div class="risk-section">
+                <div class="risk-section-title"><span>⚠️</span> Impacto</div>
+                <ul>
+                  <li>Invisibilidade de problemas reais</li>
+                  <li>Decisões baseadas em dados incompletos</li>
+                  <li>Risco regulatório não identificado</li>
+                </ul>
+              </div>
+              <div class="mitigation-box">
+                <strong>🛡️ Mitigação</strong>
+                <p>Cláusula contratual de acesso a dados brutos + API direta com CRM do BPO + Auditoria surpresa mensal + Penalidade por omissão de dados</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RISK 2 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <h3>🔄 Rotatividade de Monitores BPO</h3>
+              <span class="risk-level">Alto</span>
+            </div>
+            <div class="risk-body">
+              <div class="risk-section">
+                <div class="risk-section-title"><span>📍</span> Fase</div>
+                <ul>
+                  <li>Fase 1 (Meses 1-2)</li>
+                  <li>Fase 2 (Meses 3-4)</li>
+                  <li>Fase 3 (Meses 5-6)</li>
+                </ul>
+              </div>
+              <div class="risk-section">
+                <div class="risk-section-title"><span>⚠️</span> Impacto</div>
+                <ul>
+                  <li>Perda de conhecimento acumulado</li>
+                  <li>Queda de IRR (Inter-Rater Reliability)</li>
+                  <li>Retrabalho em calibrações</li>
+                </ul>
+              </div>
+              <div class="mitigation-box">
+                <strong>🛡️ Mitigação</strong>
+                <p>Exigir estabilidade mínima de 6 meses no contrato + Salário vinculado à certificação + Plano de carreira para monitores + Bônus por retenção</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RISK 3 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <h3>👥 Resistência à Mudança</h3>
+              <span class="risk-level">Médio</span>
+            </div>
+            <div class="risk-body">
+              <div class="risk-section">
+                <div class="risk-section-title"><span>📍</span> Fase</div>
+                <ul>
+                  <li>Fase 2 (Meses 3-4)</li>
+                  <li>Fase 3 (Meses 5-6)</li>
+                </ul>
+              </div>
+              <div class="risk-section">
+                <div class="risk-section-title"><span>⚠️</span> Impacto</div>
+                <ul>
+                  <li>Baixa aderência aos novos ritos</li>
+                  <li>Sabotagem passiva de iniciativas</li>
+                  <li>Cultura não evolui</li>
+                </ul>
+              </div>
+              <div class="mitigation-box">
+                <strong>🛡️ Mitigação</strong>
+                <p>Modelo ADKAR aplicado + Comunicação transparente de benefícios + Quick Wins visíveis + Reconhecimento de early adopters + Liderança engajada</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RISK 4 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <h3>📉 Queda de Performance na Transição</h3>
+              <span class="risk-level">Médio</span>
+            </div>
+            <div class="risk-body">
+              <div class="risk-section">
+                <div class="risk-section-title"><span>📍</span> Fase</div>
+                <ul>
+                  <li>Fase 1 (Meses 1-2)</li>
+                </ul>
+              </div>
+              <div class="risk-section">
+                <div class="risk-section-title"><span>⚠️</span> Impacto</div>
+                <ul>
+                  <li>QA Score cai durante implementação</li>
+                  <li>Cliente percebe instabilidade</li>
+                  <li>Perda de confiança no projeto</li>
+                </ul>
+              </div>
+              <div class="mitigation-box">
+                <strong>🛡️ Mitigação</strong>
+                <p>Comunicar expectativa de "J-curve" (queda antes de subir) + Baseline documentada + Meta de recuperação em 60 dias + Monitoramento diário intensivo</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RISK 5 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <h3>🛠️ Falha Tecnológica / Integração</h3>
+              <span class="risk-level">Médio</span>
+            </div>
+            <div class="risk-body">
+              <div class="risk-section">
+                <div class="risk-section-title"><span>📍</span> Fase</div>
+                <ul>
+                  <li>Fase 2 (Meses 3-4)</li>
+                  <li>Fase 3 (Meses 5-6)</li>
+                </ul>
+              </div>
+              <div class="risk-section">
+                <div class="risk-section-title"><span>⚠️</span> Impacto</div>
+                <ul>
+                  <li>Dashboards não atualizam</li>
+                  <li>Dados inconsistentes</li>
+                  <li>Decisões atrasadas</li>
+                </ul>
+              </div>
+              <div class="mitigation-box">
+                <strong>🛡️ Mitigação</strong>
+                <p>API com fallback manual + Validação diária de integridade + SLA com TI de 4h para incidentes críticos + Backup de planilhas até estabilização</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RISK 6 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <h3>💰 Corte de Budget / Recursos</h3>
+              <span class="risk-level">Baixo</span>
+            </div>
+            <div class="risk-body">
+              <div class="risk-section">
+                <div class="risk-section-title"><span>📍</span> Fase</div>
+                <ul>
+                  <li>Fase 3 (Meses 5-6)</li>
+                </ul>
+              </div>
+              <div class="risk-section">
+                <div class="risk-section-title"><span>⚠️</span> Impacto</div>
+                <ul>
+                  <li>Projetos de IA não implementam</li>
+                  <li>Speech Analytics não contrata</li>
+                  <li>Maturidade não evolui</li>
+                </ul>
+              </div>
+              <div class="mitigation-box">
+                <strong>🛡️ Mitigação</strong>
+                <p>ROI documentado de Fase 1 e 2 + Business case com payback &lt; 6 meses + Priorização de iniciativas de baixo custo + Parcerias com fornecedores</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS & MEASUREMENT -->
+    <div class="section">
+      <h2>📈 Resultados Esperados e Mensuração</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Acompanhamento via Kanban/DevOps com métricas de conclusão de atividades e validação de entrega de valor.</p>
+      
+      <div class="results-container">
+        
+        <!-- KANBAN PREVIEW -->
+        <div class="kanban-preview">
+          <h3>📋 Roadmap Kanban (GitHub Projects / Azure DevOps)</h3>
+          <p style="margin-bottom: 1.5rem; opacity: 0.9;">Todas as iniciativas trackeadas em board próprio com colunas por fase e status de execução.</p>
+          <div class="kanban-columns">
+            <div class="kanban-column phase1">
+              <h4>Fase 1 (M1-2)</h4>
+              <div class="kanban-card completed">✓ Estrutura de Qualidade</div>
+              <div class="kanban-card completed">✓ Checklists COPC</div>
+              <div class="kanban-card">⏳ Dashboard D-1</div>
+              <div class="kanban-card">⏳ Calibração Quinzenal</div>
+            </div>
+            <div class="kanban-column phase2">
+              <h4>Fase 2 (M3-4)</h4>
+              <div class="kanban-card">⏳ ADKAR Change</div>
+              <div class="kanban-card">⏳ Certificação Monitores</div>
+              <div class="kanban-card">⏳ Gamificação BPO</div>
+              <div class="kanban-card">⏳ Voice Of Customer</div>
+            </div>
+            <div class="kanban-column phase3">
+              <h4>Fase 3 (M5-6)</h4>
+              <div class="kanban-card">⏳ Speech Analytics</div>
+              <div class="kanban-card">⏳ Modelos Preditivos</div>
+              <div class="kanban-card">⏳ Projetos DMAIC</div>
+              <div class="kanban-card">⏳ APIs Integradas</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- METRICS -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-value">100%</span>
+            <span class="metric-label">Cards Fase 1 Concluídos</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">≥ 85%</span>
+            <span class="metric-label">Atividades Validadas</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">≤ 10%</span>
+            <span class="metric-label">Desvio de Cronograma</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">ROI 5:1</span>
+            <span class="metric-label">Retorno Fase 1+2</span>
+          </div>
+        </div>
+
+        <!-- SUCCESS CRITERIA -->
+        <h3 style="margin-top: 2rem; color: var(--primary);">🎯 Critérios de Sucesso por Fase</h3>
+        <div class="success-grid">
+          
+          <div class="success-card">
+            <h3>Fase 1: Fundamentos</h3>
+            <ul>
+              <li>QA Score ≥ 85% em todos os BPOs</li>
+              <li>100% dos monitores calibrados (IRR ≥ 85%)</li>
+              <li>Dashboard D-1 operacional 100% do tempo</li>
+              <li>Feedback de NCG em ≤ 24h (100% dos casos)</li>
+              <li>Playbook v1.0 publicado e acessível</li>
+            </ul>
+          </div>
+
+          <div class="success-card">
+            <h3>Fase 2: Cultura</h3>
+            <ul>
+              <li>Aderência Cultural ≥ 80% (auditoria mensal)</li>
+              <li>≥ 85% de monitores certificados</li>
+              <li>100% dos ritos realizados no calendário</li>
+              <li>Ranking de gamificação ativo e transparente</li>
+              <li>Redução de 20% em reincidência de NCG</li>
+            </ul>
+          </div>
+
+          <div class="success-card">
+            <h3>Fase 3: Maturidade</h3>
+            <ul>
+              <li>≥ 4 projetos DMAIC concluídos com ROI</li>
+              <li>Speech Analytics cobrindo 100% das ligações</li>
+              <li>Modelo preditivo de NPS com acurácia ≥ 80%</li>
+              <li>ROI documentado de 5:1 no programa PMC</li>
+              <li>90% de sustentação pós-implementação (6 meses)</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- MEASUREMENT APPROACH -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 12px; border-left: 4px solid var(--primary);">
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">📊 Abordagem de Mensuração</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+            <div style="background: white; padding: 1rem; border-radius: 8px;">
+              <strong style="color: var(--primary); display: block; margin-bottom: 0.5rem;">📋 Métrica de Execução</strong>
+              <p style="font-size: 0.9rem; color: var(--gray); margin: 0;">% de cards concluídos no Kanban por fase. Meta: ≥ 85% de conclusão dentro do cronograma.</p>
+            </div>
+            <div style="background: white; padding: 1rem; border-radius: 8px;">
+              <strong style="color: var(--primary); display: block; margin-bottom: 0.5rem;">✅ Métrica de Validação</strong>
+              <p style="font-size: 0.9rem; color: var(--gray); margin: 0;">% de atividades validadas por stakeholders. Meta: ≥ 90% de aprovação formal.</p>
+            </div>
+            <div style="background: white; padding: 1rem; border-radius: 8px;">
+              <strong style="color: var(--primary); display: block; margin-bottom: 0.5rem;">💰 Métrica de Valor</strong>
+              <p style="font-size: 0.9rem; color: var(--gray); margin: 0;">ROI calculado de iniciativas implementadas. Meta: 5:1 ao final de 6 meses.</p>
+            </div>
+            <div style="background: white; padding: 1rem; border-radius: 8px;">
+              <strong style="color: var(--primary); display: block; margin-bottom: 0.5rem;">🔄 Métrica de Sustentação</strong>
+              <p style="font-size: 0.9rem; color: var(--gray); margin: 0;">% de ganhos mantidos após 3 meses. Meta: ≥ 90% de sustentação.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CLOSING -->
+    <div class="section" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
+      <h2 style="color: white; border-bottom-color: white;">🎯 Compromisso de Entrega</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; text-align: center;">
+          <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📅</span>
+          <strong style="font-size: 1.1rem;">6 Meses</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">Cronograma total de implementação</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; text-align: center;">
+          <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🎯</span>
+          <strong style="font-size: 1.1rem;">3 Fases</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">Essencial → Cultura → Maturidade</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; text-align: center;">
+          <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📊</span>
+          <strong style="font-size: 1.1rem;">4 Métricas</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">Execução, Validação, Valor, Sustentação</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; text-align: center;">
+          <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">💰</span>
+          <strong style="font-size: 1.1rem;">ROI 5:1</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">Retorno esperado ao final</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Interatividade básica: highlight de cards ao hover
+    document.querySelectorAll('.phase-card, .risk-card, .success-card, .metric-card, .kanban-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+      });
+    });
+  </script>
+</body>
+</html>
