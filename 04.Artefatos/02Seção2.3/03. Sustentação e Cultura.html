@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cultura de Qualidade | Agibank BPO</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #3b82f6;
+      --success: #059669;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --purple: #7c3aed;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    body { background: var(--light); color: var(--dark); line-height: 1.6; }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin: 0 auto; }
+    
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* CULTURE PILLARS */
+    .culture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .culture-card {
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .culture-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+    }
+
+    .culture-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--secondary);
+    }
+
+    .culture-card.discipline::before { background: var(--success); }
+    .culture-card.engagement::before { background: var(--warning); }
+    .culture-card.certification::before { background: var(--purple); }
+    .culture-card.gamification::before { background: var(--danger); }
+    .culture-card.knowledge::before { background: var(--primary); }
+    .culture-card.audit::before { background: var(--gray); }
+
+    .culture-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .culture-card h3 {
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .culture-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .culture-card ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .culture-card li {
+      padding: 0.4rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.85rem;
+      color: var(--dark);
+    }
+
+    .culture-card li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    /* VOC SECTION - DESTAQUE */
+    .voc-section {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 2px solid var(--danger);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .voc-section::before {
+      content: "🎧";
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 8rem;
+      opacity: 0.1;
+      transform: rotate(15deg);
+    }
+
+    .voc-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .voc-icon {
+      background: var(--danger);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .voc-title h3 {
+      color: var(--danger);
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .voc-title p {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    .voc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .voc-card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--danger);
+    }
+
+    .voc-card h4 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .voc-card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    /* CERTIFICATION & GAMIFICATION */
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .program-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .program-header {
+      padding: 1.5rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .program-card.certification .program-header {
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+    }
+
+    .program-card.gamification .program-header {
+      background: linear-gradient(135deg, var(--danger), #b91c1c);
+    }
+
+    .program-icon {
+      font-size: 2rem;
+      background: rgba(255,255,255,0.2);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .program-title h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .program-title .tagline {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .program-body {
+      padding: 1.5rem;
+    }
+
+    .program-body ul {
+      list-style: none;
+    }
+
+    .program-body li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .program-body li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    .reward-box {
+      background: #fef2f2;
+      border: 2px dashed var(--danger);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .reward-box strong {
+      color: var(--danger);
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .reward-box p {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    /* PLAYBOOK & AUDIT */
+    .sustain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .sustain-card {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 5px solid var(--primary);
+    }
+
+    .sustain-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sustain-card ul {
+      list-style: none;
+    }
+
+    .sustain-card li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+
+    .sustain-card li::before {
+      content: "📌";
+      position: absolute;
+      left: 0;
+    }
+
+    /* CULTURE METRICS */
+    .culture-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .metric-card {
+      background: white;
+      border: 2px solid var(--secondary);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: block;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .culture-grid { grid-template-columns: 1fr; }
+      .program-grid { grid-template-columns: 1fr; }
+      .voc-header { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <h1>🌱 Padronização & Cultura de Qualidade</h1>
+      <p>Transformando processos em comportamento: iniciativas de engajamento, certificação, gamificação e conexão emocional com o cliente para sustentar excelência entre todos os parceiros.</p>
+    </div>
+
+    <!-- CULTURE PILLARS -->
+    <div class="section">
+      <h2>🏛️ 6 Pilares de Cultura de Qualidade</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--gray);">Cultura não acontece por acidente. É desenhada, reforçada e medida através de iniciativas intencionais que conectam pessoas, processos e propósito.</p>
+      
+      <div class="culture-grid">
+        
+        <!-- Discipline -->
+        <div class="culture-card discipline">
+          <span class="culture-icon">📅</span>
+          <h3>Disciplina de Ritos</h3>
+          <p>Calendário executado religiosamente, sem exceções.</p>
+          <ul>
+            <li>Convites enviados com 5 dias de antecedência</li>
+            <li>Participação obrigatória registrada</li>
+            <li>Reuniões começam e terminam no horário</li>
+            <li>Atas publicadas em D+1 com ações trackeadas</li>
+          </ul>
+        </div>
+
+        <!-- Engagement -->
+        <div class="culture-card engagement">
+          <span class="culture-icon">💡</span>
+          <h3>Liberdade de Pensamento</h3>
+          <p>Construção coletiva, não imposição unilateral.</p>
+          <ul>
+            <li>Espaço seguro para questionar processos</li>
+            <li>Sugestões de melhoria vindas do chão de fábrica</li>
+            <li>Reuniões sem "cargo", focadas em ideias</li>
+            <li>Reconhecimento de quem propõe melhorias</li>
+          </ul>
+        </div>
+
+        <!-- Certification -->
+        <div class="culture-card certification">
+          <span class="culture-icon">🎓</span>
+          <h3>Certificação de Monitores</h3>
+          <p>Profissionalização da função de avaliação.</p>
+          <ul>
+            <li>Certificação inicial obrigatória para monitorar</li>
+            <li>Re-certificação trimestral com teste prático</li>
+            <li>Trilha de evolução: Júnior → Pleno → Sênior → Master</li>
+            <li>Salário vinculado ao nível de certificação</li>
+          </ul>
+        </div>
+
+        <!-- Gamification -->
+        <div class="culture-card gamification">
+          <span class="culture-icon">🏆</span>
+          <h3>Gamificação Comercial</h3>
+          <p>Incentivo tangível atrelado a resultados de qualidade.</p>
+          <ul>
+            <li>Ranking mensal entre BPOs por QA Score + FCR</li>
+            <li>Premiação em volume de chamados (mais receita)</li>
+            <li>Troféu físico + reconhecimento público</li>
+            <li>Benefícios para equipes campeãs (day off, bonificação)</li>
+          </ul>
+        </div>
+
+        <!-- Knowledge -->
+        <div class="culture-card knowledge">
+          <span class="culture-icon">📚</span>
+          <h3>Playbook & Trilhas</h3>
+          <p>Conhecimento acessível, atualizado e estruturado.</p>
+          <ul>
+            <li>Playbook Operacional atualizado semanalmente</li>
+            <li>Trilhas de capacitação por nível de senioridade</li>
+            <li>Micro-learning (pílulas de 5min) no portal do agente</li>
+            <li>Quiz de conhecimento com pontuação ranqueada</li>
+          </ul>
+        </div>
+
+        <!-- Audit -->
+        <div class="culture-card audit">
+          <span class="culture-icon">🔍</span>
+          <h3>Auditoria de Aderência</h3>
+          <p>Verificação mensal de sustentação dos padrões.</p>
+          <ul>
+            <li>Checklist de aderência cultural aplicado mensalmente</li>
+            <li>Score de maturidade por BPO (A/B/C/D)</li>
+            <li>Plano de ação para BPOs abaixo de 80%</li>
+            <li>Resultado publicado no Quality Council</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Culture Metrics -->
+      <div class="culture-metrics">
+        <div class="metric-card">
+          <span class="metric-value">100%</span>
+          <span class="metric-label">Ritos Realizados</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">≥ 85%</span>
+          <span class="metric-label">Monitores Certificados</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">D+7</span>
+          <span class="metric-label">Atualização Playbook</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">≥ 80%</span>
+          <span class="metric-label">Score Aderência Cultural</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATION & GAMIFICATION PROGRAMS -->
+    <div class="section">
+      <h2>🎯 Programas de Engajamento</h2>
+      
+      <div class="program-grid">
+        
+        <!-- Certification Program -->
+        <div class="program-card certification">
+          <div class="program-header">
+            <div class="program-icon">🎓</div>
+            <div class="program-title">
+              <h3>Programa de Certificação de Monitores</h3>
+              <span class="tagline">Elevando o padrão da avaliação</span>
+            </div>
+          </div>
+          <div class="program-body">
+            <ul>
+              <li><strong>Nível 1 (Júnior):</strong> Pode monitorar ligações simples (SAC básico)</li>
+              <li><strong>Nível 2 (Pleno):</strong> Pode monitorar canais N¹ e CROS selling</li>
+              <li><strong>Nível 3 (Sênior):</strong> Pode monitorar canais regulatórios e treinar juniores</li>
+              <li><strong>Nível 4 (Master):</strong> Pode facilitar calibrações e auditar outros monitores</li>
+              <li><strong>Requisitos:</strong> IRR ≥ 85%, 6 meses de casa, aprovação em prova teórica + prática</li>
+              <li><strong>Benefício:</strong> Progressão salarial vinculada ao nível de certificação</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Gamification Program -->
+        <div class="program-card gamification">
+          <div class="program-header">
+            <div class="program-icon">🏆</div>
+            <div class="program-title">
+              <h3>Gamificação: Quality Champions League</h3>
+              <span class="tagline">Competição saudável com recompensa real</span>
+            </div>
+          </div>
+          <div class="program-body">
+            <ul>
+              <li><strong>Ranking Mensal:</strong> BPOs competem por QA Score + FCR combinados</li>
+              <li><strong>Pontuação:</strong> QA (60%) + FCR (30%) + CSAT (10%)</li>
+              <li><strong>Categorias:</strong> Ouro (1º), Prata (2º), Bronze (3º)</li>
+              <li><strong>Premiação:</strong> Prioridade em alocação de novos volumes de chamados</li>
+              <li><strong>Bônus:</strong> Equipe campeã ganha day off coletivo + troféu</li>
+              <li><strong>Transparência:</strong> Dashboard público com ranking em tempo real</li>
+            </ul>
+            <div class="reward-box">
+              <strong>💰 Incentivo Comercial</strong>
+              <p>BPO campeão recebe +15% de volume de ligações no mês seguinte (mais faturamento)</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VOICE OF CUSTOMER - DESTAQUE -->
+    <div class="voc-section">
+      <div class="voc-header">
+        <div class="voc-icon">🎧</div>
+        <div class="voc-title">
+          <h3>Rito "Voice Of Customer" (VoC)</h3>
+          <p>Mensalmente • 30 minutos • Participação obrigatória de todas as lideranças</p>
+        </div>
+      </div>
+      
+      <p style="color: var(--dark); font-size: 0.95rem; margin-bottom: 1rem;">
+        <strong>Propósito:</strong> Humanizar os dados. Números não mobilizam — histórias sim. Este rito conecta a operação à realidade do cliente, gerando senso de dono e urgência genuína para melhoria.
+      </p>
+
+      <div class="voc-grid">
+        
+        <div class="voc-card">
+          <h4>📍 O Que</h4>
+          <p>Reprodução de 3-5 áudios reais de clientes (NPS detrator e promotor) com depoimentos emocionados sobre a experiência.</p>
+        </div>
+
+        <div class="voc-card">
+          <h4>🎯 Como</h4>
+          <p>Amostras naturalmente selecionadas (sem edição). Cliente fala sobre dor, frustração, expectativa e satisfação.</p>
+        </div>
+
+        <div class="voc-card">
+          <h4>⚡ Objetivo</h4>
+          <p>Gerar movimento <strong>VER > AGIR</strong>. Após cada áudio, grupo discute: "O que podemos fazer para evitar/repetir isso?"</p>
+        </div>
+
+        <div class="voc-card">
+          <h4>📊 Output</h4>
+          <p>Lista de 3 ações prioritárias identificadas a partir das dores dos clientes, com dono e prazo definido na hora.</p>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 1.5rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid var(--danger);">
+        <strong>💡 Regra de Ouro:</strong> Nenhuma justificativa é aceita após ouvir o cliente. Se o cliente está frustrado, o processo falhou — ponto final. Foco em solução, não em defesa.
+      </div>
+    </div>
+
+    <!-- SUSTAINABILITY -->
+    <div class="section">
+      <h2>🔒 Sustentação dos Padrões</h2>
+      
+      <div class="sustain-grid">
+        
+        <div class="sustain-card">
+          <h3>📖 Playbook Operacional Vivo</h3>
+          <ul>
+            <li>Atualização semanal com mudanças de processo</li>
+            <li>Versão digital acessível no portal do agente</li>
+            <li>Histórico de versões com changelog transparente</li>
+            <li>Notificação push para agentes quando há mudança crítica</li>
+            <li>Quiz de compreensão após cada atualização relevante</li>
+          </ul>
+        </div>
+
+        <div class="sustain-card">
+          <h3>🎓 Trilhas de Capacitação</h3>
+          <ul>
+            <li>Trilha Inicial (Onboarding): 40h de conteúdo obrigatório</li>
+            <li>Trilha de Produto: Atualização trimestral sobre novos produtos</li>
+            <li>Trilha de Compliance: Recertificação semestral em regulação</li>
+            <li>Trilha de Liderança: Para supervisores e coordenadores do BPO</li>
+            <li>Badges digitais conquistáveis ao completar cada trilha</li>
+          </ul>
+        </div>
+
+        <div class="sustain-card">
+          <h3>🔍 Auditoria de Aderência Mensal</h3>
+          <ul>
+            <li>Checklist de 50 itens aplicado in loco ou remoto</li>
+            <li>Categorias: Processos, Pessoas, Tecnologia, Cultura</li>
+            <li>Score mínimo exigido: 80% para manter status de parceiro aprovado</li>
+            <li>BPOs abaixo de 80% entram em plano de recuperação (30 dias)</li>
+            <li>Resultado apresentado no Quality Council com plano de ação</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CULTURE MANIFESTO -->
+    <div class="section" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
+      <h2 style="color: white; border-bottom-color: white;">🎯 Manifesto de Cultura de Qualidade</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+        
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px;">
+          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">🤝 Nós Acreditamos</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9;">Que qualidade se constrói junto, não se impõe. Cada voz importa, cada ideia é válida.</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px;">
+          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">⚡ Nós Agimos</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9;">Com urgência quando o cliente pede. VER > AGIR é nosso lema diário.</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px;">
+          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">📈 Nós Evoluímos</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9;">Erros são oportunidades de aprendizado. Estagnação é nosso único inimigo.</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px;">
+          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">🎯 Nós Entregamos</strong>
+          <p style="font-size: 0.9rem; opacity: 0.9;">Excelência não é opcional. É o mínimo que nosso cliente merece.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Interatividade básica: highlight de cards ao hover
+    document.querySelectorAll('.culture-card, .program-card, .voc-card, .sustain-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+      });
+    });
+  </script>
+</body>
+</html>
