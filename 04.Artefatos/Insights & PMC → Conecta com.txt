@@ -1,7 +1,0 @@
-┌─────────────────────────────────────┐
-│ PARA: Todas as áreas                │
-│ • Envio: Dashboards preditivos      │
-│ • Recebe: Dados brutos de operação  │
-│ • Gatilho: Anomalia detectada       │
-│ • Frequência: Real-time / D-1       │
-└─────────────────────────────────────┘
